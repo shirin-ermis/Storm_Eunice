@@ -34,12 +34,12 @@ def get_readme():
 # Go!
 setup(
     # Module name (lowercase)
-    name='pkmodel',
+    name='stormeunice',
 
     # Version
     version=get_version(),
 
-    description='An example Python project.',
+    description='An attribution study of storm Eunice.',
 
     long_description=get_readme(),
 
@@ -49,14 +49,14 @@ setup(
 
     # author_email='',
 
-    maintainer='Martin Robinson',
+    maintainer='Shirin Ermis',
 
-    maintainer_email='martin.robinson@cs.ox.ac.uk',
+    maintainer_email='shirin.ermis@env-res.ox.ac.uk',
 
-    url='https://github.com/SABS-R3/2020-software-engineering-projects-pk',
+    url='https://github.com/shirin-ermis/Storm_Eunice',
 
     # Packages to include
-    packages=find_packages(include=('pkmodel', 'pkmodel.*')),
+    packages=find_packages(include=('stormeunice', 'stormeunice.*')),
 
     # List of dependencies
     install_requires=[

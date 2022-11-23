@@ -1,7 +1,7 @@
-"""pkmodel is a Pharmokinetic modelling library.
+"""Storm Eunice is an attribution study 
+using medium-range weather forecasts
 
-It contains functionality for creating, solving, and visualising the solution
-of Parmokinetic (PK) models
+It contains the data analysis for our attribution
 
 """
 # Import version info
@@ -9,5 +9,3 @@ from .version_info import VERSION_INT, VERSION  # noqa
 
 # Import main classes
 from .model import Model    # noqa
-from .protocol import Protocol    # noqa
-from .solution import Solution     # noqa
