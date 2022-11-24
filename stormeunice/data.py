@@ -2,6 +2,8 @@
 Functions to import data
 '''
 
+impoort xarray as xr
+
 class Data():
     """
     Class to import data files
@@ -24,4 +26,5 @@ class Data():
         data: 
         """
 
+        data = xr.load_dataset()
         
