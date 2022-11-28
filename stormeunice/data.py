@@ -2,7 +2,7 @@
 Functions to import data
 '''
 
-impoort xarray as xr
+import xarray as xr
 
 class Data():
     """
