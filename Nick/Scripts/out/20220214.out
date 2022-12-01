@@ -1,0 +1,481 @@
+got data
+Integrating 3 scenarios, 1 gas cycle parameter sets, 1 thermal response parameter sets, over ['bc', 'bc|aci', 'bc|bc_on_snow', 'c2f6', 'c3f8', 'c4f10', 'c5f12', 'c6f14', 'c7f16', 'c8f18', 'c_c4f8', 'carbon_dioxide', 'carbon_tetrachloride', 'carbon_tetrachloride|o3', 'cf4', 'cfc11', 'cfc113', 'cfc113|o3', 'cfc114', 'cfc114|o3', 'cfc115', 'cfc115|o3', 'cfc11|o3', 'cfc12', 'cfc12|o3', 'ch2cl2', 'ch2cl2|o3', 'ch3ccl3', 'ch3ccl3|o3', 'chcl3', 'chcl3|o3', 'co', 'co|o3', 'halon1202', 'halon1202|o3', 'halon1211', 'halon1211|o3', 'halon1301', 'halon1301|o3', 'halon2402', 'halon2402|o3', 'hcfc141b', 'hcfc141b|o3', 'hcfc142b', 'hcfc142b|o3', 'hcfc22', 'hcfc22|o3', 'hfc125', 'hfc134a', 'hfc143a', 'hfc152a', 'hfc227ea', 'hfc23', 'hfc236fa', 'hfc245fa', 'hfc32', 'hfc365mfc', 'hfc4310mee', 'methane', 'methane|strat_h2o', 'methane|o3', 'methyl_bromide', 'methyl_bromide|o3', 'methyl_chloride', 'methyl_chloride|o3', 'nf3', 'nh3', 'nitrous_oxide', 'nitrous_oxide|o3', 'nmvoc', 'nmvoc|o3', 'nox', 'nox_avi', 'nox_avi|contrails', 'nox|o3', 'oc', 'oc|aci', 'sf6', 'so2', 'so2f2', 'so2|aci'] forcing agents, between 1750 and 2022...
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+generate-perturbation.py:39: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  lsm_hadisst=~xr.ufuncs.isnan(xr.open_dataset('/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/source/sst/HadISST_sst.nc').isel(time=-1).sst)
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/core/dataarray.py:3066: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  da = self.__array_wrap__(f(self.variable.data, *args, **kwargs))
+  0%|          | 0/272 [00:00<?, ? timestep/s] 65%|██████▍   | 176/272 [00:00<00:00, 1754.17 timestep/s]100%|██████████| 272/272 [00:00<00:00, 1772.19 timestep/s]computed AWI
+computed attributable t3d
+infilled & remapped t3d
+computed attributable sst
+infilled & remapped sst
+relaxed t3d to sst at surface & saved
+computed attributable sea-ice concentration & thickness
+infilled sea-ice concentration & thickness + saved
+
+perturbing opa0 t3d
+perturbing opa1 t3d
+perturbing opa2 t3d
+perturbing opa3 t3d
+perturbing opa4 t3d
+perturbing opa0 si2d
+perturbing opa1 si2d
+perturbing opa2 si2d
+perturbing opa3 si2d
+perturbing opa4 si2d
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.767709165455699
+interation 2 max diff: 0.0030784995988142327
+interation 3 max diff: 1.3529529496736359e-08
+interation 4 max diff: 2.0463630789890885e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa0/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.240036757979283
+interation 2 max diff: 0.0018322024818644422
+interation 3 max diff: 6.954451237106696e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa0/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.7827837649354024
+interation 2 max diff: 0.0031086187275377597
+interation 3 max diff: 1.369141955365194e-08
+interation 4 max diff: 1.8189894035458565e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa1/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.2400827443290154
+interation 2 max diff: 0.0018412565016205917
+interation 3 max diff: 7.002654456300661e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa1/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.8443843283423575
+interation 2 max diff: 0.0032614275482956145
+interation 3 max diff: 1.4630472833232488e-08
+interation 4 max diff: 2.1600499167107046e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa2/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.29398201094466
+interation 2 max diff: 0.0019279736238786427
+interation 3 max diff: 7.4401214078534395e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa2/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.710380585065195
+interation 2 max diff: 0.0029418273517194393
+interation 3 max diff: 1.3508952179108746e-08
+interation 4 max diff: 2.8421709430404007e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa3/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.181504961784526
+interation 2 max diff: 0.0018819373060523503
+interation 3 max diff: 7.212065611383878e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa3/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.68886972332632
+interation 2 max diff: 0.002890652423047868
+interation 3 max diff: 1.2428927220753394e-08
+interation 4 max diff: 1.7053025658242404e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa4/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.139110425336753
+interation 2 max diff: 0.0017936885312792583
+interation 3 max diff: 6.7620931076817214e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa4/restart/2022/0001_nrt_20220214_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+cp: cannot stat '/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output//tmp/*_restart_ice.nc': No such file or directory
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+cdo(3) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(3) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [5.85s 512MB].
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [3.66s 512MB].
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda deactivate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+no change     /home/l/leach/installed-packages/miniconda3/condabin/conda
+no change     /home/l/leach/installed-packages/miniconda3/bin/conda
+no change     /home/l/leach/installed-packages/miniconda3/bin/conda-env
+no change     /home/l/leach/installed-packages/miniconda3/bin/activate
+no change     /home/l/leach/installed-packages/miniconda3/bin/deactivate
+no change     /home/l/leach/installed-packages/miniconda3/etc/profile.d/conda.sh
+no change     /home/l/leach/installed-packages/miniconda3/etc/fish/conf.d/conda.fish
+no change     /home/l/leach/installed-packages/miniconda3/shell/condabin/Conda.psm1
+no change     /home/l/leach/installed-packages/miniconda3/shell/condabin/conda-hook.ps1
+no change     /home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xontrib/conda.xsh
+no change     /home/l/leach/installed-packages/miniconda3/etc/profile.d/conda.csh
+no change     /home/l/leach/.bashrc
+No action taken.
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+
+cdo (Abort): Too few streams specified! Operator griddes needs 1 input stream and 0 output stream!
+SysError:  Read grid from /tmp/griddes failed!
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+SysError:  Read grid from /tmp/griddes failed!
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+grib_set error: no value provided for key "dataDate"
+
+NAME 	grib_set
+
+DESCRIPTION
+	Sets key/value pairs in the input GRIB file and writes
+	each message to the output_grib_file.
+	It fails when an error occurs (e.g. key not found).
+
+USAGE 
+	grib_set [options] grib_file grib_file ... output_grib_file
+
+OPTIONS
+	-s key[:{s|d|i}]=value,key[:{s|d|i}]=value,...	
+		Key/values to set.
+		For each key a string (key:s), a double (key:d) or an integer (key:i)
+		type can be defined. By default the native type is set.
+	-r 	Repack data. Sometimes after setting some keys involving properties
+		of the packing algorithm a repacking of data is needed.
+		This repacking is performed setting this -r option.
+	-d value	
+		Set all the data values to "value".
+	-p key[:{s|d|i}],key[:{s|d|i}],...	
+		Declaration of keys to print.
+		For each key a string (key:s), a double (key:d) or an integer (key:i)
+		type can be requested. Default type is string.
+	-P key[:{s|d|i}],key[:{s|d|i}],...	
+		As -p adding the declared keys to the default list.
+	-w key[:{s|d|i}]{=|!=}value,key[:{s|d|i}]=value,...	
+		Where clause.
+		Set is only executed for GRIB messages matching all the key/value constraints.
+		If a GRIB message does not match the constraints it is copied unchanged
+		to the output_grib_file. This behaviour can be changed setting the option -S.
+		A valid constraint is of type key=value or key!=value.
+		For each key a string (key:s), a double (key:d) or an integer (key:i)
+		type can be defined. Default type is string.
+		In the value you can also use the forward-slash character '/' to specify an OR condition (i.e. a logical disjunction)
+		Note: only one -w clause is allowed.
+	-7 	Does not fail when the message has wrong length
+	-S 	Strict. Only messages matching all the constraints are copied to
+		the output file
+	-V 	Version.
+	-M 	Multi-field support off. Turn off support for multiple fields in single GRIB message.
+	-g 	Copy GTS header. 
+	-G 	GRIBEX compatibility mode.
+	-T T | B | M | A	Message type. T->GTS, B->BUFR, M->METAR (Experimental), A->Any (Experimental).
+				The input file is interpreted according to the message type.
+	-f 	Force. Force the execution not to fail on error.
+	-v 	Verbose.
+
+
+grib_set error: no value provided for key "dataDate"
+
+NAME 	grib_set
+
+DESCRIPTION
+	Sets key/value pairs in the input GRIB file and writes
+	each message to the output_grib_file.
+	It fails when an error occurs (e.g. key not found).
+
+USAGE 
+	grib_set [options] grib_file grib_file ... output_grib_file
+
+OPTIONS
+	-s key[:{s|d|i}]=value,key[:{s|d|i}]=value,...	
+		Key/values to set.
+		For each key a string (key:s), a double (key:d) or an integer (key:i)
+		type can be defined. By default the native type is set.
+	-r 	Repack data. Sometimes after setting some keys involving properties
+		of the packing algorithm a repacking of data is needed.
+		This repacking is performed setting this -r option.
+	-d value	
+		Set all the data values to "value".
+	-p key[:{s|d|i}],key[:{s|d|i}],...	
+		Declaration of keys to print.
+		For each key a string (key:s), a double (key:d) or an integer (key:i)
+		type can be requested. Default type is string.
+	-P key[:{s|d|i}],key[:{s|d|i}],...	
+		As -p adding the declared keys to the default list.
+	-w key[:{s|d|i}]{=|!=}value,key[:{s|d|i}]=value,...	
+		Where clause.
+		Set is only executed for GRIB messages matching all the key/value constraints.
+		If a GRIB message does not match the constraints it is copied unchanged
+		to the output_grib_file. This behaviour can be changed setting the option -S.
+		A valid constraint is of type key=value or key!=value.
+		For each key a string (key:s), a double (key:d) or an integer (key:i)
+		type can be defined. Default type is string.
+		In the value you can also use the forward-slash character '/' to specify an OR condition (i.e. a logical disjunction)
+		Note: only one -w clause is allowed.
+	-7 	Does not fail when the message has wrong length
+	-S 	Strict. Only messages matching all the constraints are copied to
+		the output file
+	-V 	Version.
+	-M 	Multi-field support off. Turn off support for multiple fields in single GRIB message.
+	-g 	Copy GTS header. 
+	-G 	GRIBEX compatibility mode.
+	-T T | B | M | A	Message type. T->GTS, B->BUFR, M->METAR (Experimental), A->Any (Experimental).
+				The input file is interpreted according to the message type.
+	-f 	Force. Force the execution not to fail on error.
+	-v 	Verbose.
+
+
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda deactivate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+no change     /home/l/leach/installed-packages/miniconda3/condabin/conda
+no change     /home/l/leach/installed-packages/miniconda3/bin/conda
+no change     /home/l/leach/installed-packages/miniconda3/bin/conda-env
+no change     /home/l/leach/installed-packages/miniconda3/bin/activate
+no change     /home/l/leach/installed-packages/miniconda3/bin/deactivate
+no change     /home/l/leach/installed-packages/miniconda3/etc/profile.d/conda.sh
+no change     /home/l/leach/installed-packages/miniconda3/etc/fish/conf.d/conda.fish
+no change     /home/l/leach/installed-packages/miniconda3/shell/condabin/Conda.psm1
+no change     /home/l/leach/installed-packages/miniconda3/shell/condabin/conda-hook.ps1
+no change     /home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xontrib/conda.xsh
+no change     /home/l/leach/installed-packages/miniconda3/etc/profile.d/conda.csh
+no change     /home/l/leach/.bashrc
+No action taken.
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+cdo(3) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(3) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.02s 511MB].
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [3.42s 511MB].
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda deactivate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [3.74s 523MB].
+no messages found in /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output//tmp/incr-co2-sstdelta-remap.grib
+
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [3.63s 523MB].
+no messages found in /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output//tmp/incr-co2-sstdelta-remap.grib
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+cdo(3) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(3) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.07s 512MB].
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [3.69s 511MB].
