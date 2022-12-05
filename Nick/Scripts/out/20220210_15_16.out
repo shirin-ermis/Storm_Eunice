@@ -1,0 +1,511 @@
+computing perturbed restarts for 20220215
+got data
+Integrating 3 scenarios, 1 gas cycle parameter sets, 1 thermal response parameter sets, over ['bc', 'bc|aci', 'bc|bc_on_snow', 'c2f6', 'c3f8', 'c4f10', 'c5f12', 'c6f14', 'c7f16', 'c8f18', 'c_c4f8', 'carbon_dioxide', 'carbon_tetrachloride', 'carbon_tetrachloride|o3', 'cf4', 'cfc11', 'cfc113', 'cfc113|o3', 'cfc114', 'cfc114|o3', 'cfc115', 'cfc115|o3', 'cfc11|o3', 'cfc12', 'cfc12|o3', 'ch2cl2', 'ch2cl2|o3', 'ch3ccl3', 'ch3ccl3|o3', 'chcl3', 'chcl3|o3', 'co', 'co|o3', 'halon1202', 'halon1202|o3', 'halon1211', 'halon1211|o3', 'halon1301', 'halon1301|o3', 'halon2402', 'halon2402|o3', 'hcfc141b', 'hcfc141b|o3', 'hcfc142b', 'hcfc142b|o3', 'hcfc22', 'hcfc22|o3', 'hfc125', 'hfc134a', 'hfc143a', 'hfc152a', 'hfc227ea', 'hfc23', 'hfc236fa', 'hfc245fa', 'hfc32', 'hfc365mfc', 'hfc4310mee', 'methane', 'methane|strat_h2o', 'methane|o3', 'methyl_bromide', 'methyl_bromide|o3', 'methyl_chloride', 'methyl_chloride|o3', 'nf3', 'nh3', 'nitrous_oxide', 'nitrous_oxide|o3', 'nmvoc', 'nmvoc|o3', 'nox', 'nox_avi', 'nox_avi|contrails', 'nox|o3', 'oc', 'oc|aci', 'sf6', 'so2', 'so2f2', 'so2|aci'] forcing agents, between 1750 and 2022...
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+generate-perturbation.py:39: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  lsm_hadisst=~xr.ufuncs.isnan(xr.open_dataset('/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/source/sst/HadISST_sst.nc').isel(time=-1).sst)
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/core/dataarray.py:3066: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  da = self.__array_wrap__(f(self.variable.data, *args, **kwargs))
+  0%|          | 0/272 [00:00<?, ? timestep/s] 63%|██████▎   | 171/272 [00:00<00:00, 1709.42 timestep/s]100%|██████████| 272/272 [00:00<00:00, 1741.50 timestep/s]computed AWI
+computed attributable t3d
+infilled & remapped t3d
+computed attributable sst
+infilled & remapped sst
+relaxed t3d to sst at surface & saved
+computed attributable sea-ice concentration & thickness
+infilled sea-ice concentration & thickness + saved
+
+perturbing opa0 t3d
+perturbing opa1 t3d
+perturbing opa2 t3d
+perturbing opa3 t3d
+perturbing opa4 t3d
+perturbing opa0 si2d
+perturbing opa1 si2d
+perturbing opa2 si2d
+perturbing opa3 si2d
+perturbing opa4 si2d
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.803412347709923
+interation 2 max diff: 0.0031666278588318164
+interation 3 max diff: 1.4069769349589478e-08
+interation 4 max diff: 1.9326762412674725e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa0/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.273129607226565
+interation 2 max diff: 0.0018666328012386657
+interation 3 max diff: 7.127255230443552e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa0/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.7811089754275145
+interation 2 max diff: 0.003106816449303551
+interation 3 max diff: 1.3688918443222065e-08
+interation 4 max diff: 1.8189894035458565e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa1/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.238253934103909
+interation 2 max diff: 0.0018369955398611637
+interation 3 max diff: 6.980826583458111e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa1/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.823042647739385
+interation 2 max diff: 0.0032092584149268077
+interation 3 max diff: 1.431328655598918e-08
+interation 4 max diff: 1.9326762412674725e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa2/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.2696851436971883
+interation 2 max diff: 0.0018552392527908523
+interation 3 max diff: 7.068365448503755e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa2/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.7186161750221345
+interation 2 max diff: 0.0029603584276856054
+interation 3 max diff: 1.3115140973241068e-08
+interation 4 max diff: 2.5011104298755527e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa3/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.1762421392088527
+interation 2 max diff: 0.0018711954587615764
+interation 3 max diff: 7.1570411819266155e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa3/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.7057944948384147
+interation 2 max diff: 0.002928879779346971
+interation 3 max diff: 1.2649707059608772e-08
+interation 4 max diff: 1.7053025658242404e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa4/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.150571099097988
+interation 2 max diff: 0.0018180814370225562
+interation 3 max diff: 6.883510650368407e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa4/restart/2022/0001_nrt_20220215_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+cdo(3) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(3) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.12s 512MB].
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.11s 512MB].
+rm: cannot remove '/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output//tmp/*': No such file or directory
+compted perturbed restarts for 20220215 and cleaned /tmp/
+computing perturbed restarts for 20220216
+got data
+Integrating 3 scenarios, 1 gas cycle parameter sets, 1 thermal response parameter sets, over ['bc', 'bc|aci', 'bc|bc_on_snow', 'c2f6', 'c3f8', 'c4f10', 'c5f12', 'c6f14', 'c7f16', 'c8f18', 'c_c4f8', 'carbon_dioxide', 'carbon_tetrachloride', 'carbon_tetrachloride|o3', 'cf4', 'cfc11', 'cfc113', 'cfc113|o3', 'cfc114', 'cfc114|o3', 'cfc115', 'cfc115|o3', 'cfc11|o3', 'cfc12', 'cfc12|o3', 'ch2cl2', 'ch2cl2|o3', 'ch3ccl3', 'ch3ccl3|o3', 'chcl3', 'chcl3|o3', 'co', 'co|o3', 'halon1202', 'halon1202|o3', 'halon1211', 'halon1211|o3', 'halon1301', 'halon1301|o3', 'halon2402', 'halon2402|o3', 'hcfc141b', 'hcfc141b|o3', 'hcfc142b', 'hcfc142b|o3', 'hcfc22', 'hcfc22|o3', 'hfc125', 'hfc134a', 'hfc143a', 'hfc152a', 'hfc227ea', 'hfc23', 'hfc236fa', 'hfc245fa', 'hfc32', 'hfc365mfc', 'hfc4310mee', 'methane', 'methane|strat_h2o', 'methane|o3', 'methyl_bromide', 'methyl_bromide|o3', 'methyl_chloride', 'methyl_chloride|o3', 'nf3', 'nh3', 'nitrous_oxide', 'nitrous_oxide|o3', 'nmvoc', 'nmvoc|o3', 'nox', 'nox_avi', 'nox_avi|contrails', 'nox|o3', 'oc', 'oc|aci', 'sf6', 'so2', 'so2f2', 'so2|aci'] forcing agents, between 1750 and 2022...
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+generate-perturbation.py:39: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  lsm_hadisst=~xr.ufuncs.isnan(xr.open_dataset('/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/source/sst/HadISST_sst.nc').isel(time=-1).sst)
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/core/dataarray.py:3066: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  da = self.__array_wrap__(f(self.variable.data, *args, **kwargs))
+  0%|          | 0/272 [00:00<?, ? timestep/s] 56%|█████▌    | 151/272 [00:00<00:00, 1504.46 timestep/s]100%|██████████| 272/272 [00:00<00:00, 1537.63 timestep/s]computed AWI
+computed attributable t3d
+infilled & remapped t3d
+computed attributable sst
+infilled & remapped sst
+relaxed t3d to sst at surface & saved
+computed attributable sea-ice concentration & thickness
+infilled sea-ice concentration & thickness + saved
+
+perturbing opa0 t3d
+perturbing opa1 t3d
+perturbing opa2 t3d
+perturbing opa3 t3d
+perturbing opa4 t3d
+perturbing opa0 si2d
+perturbing opa1 si2d
+perturbing opa2 si2d
+perturbing opa3 si2d
+perturbing opa4 si2d
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.691347527697644
+interation 2 max diff: 0.0029043887332136364
+interation 3 max diff: 1.252919901162386e-08
+interation 4 max diff: 1.1368683772161603e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa0/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.1846538987159647
+interation 2 max diff: 0.0018853424703593191
+interation 3 max diff: 7.2207058110507205e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa0/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.7110624332757425
+interation 2 max diff: 0.002942745954783277
+interation 3 max diff: 1.2728719411825296e-08
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa1/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.177640323629589
+interation 2 max diff: 0.0018723344571753842
+interation 3 max diff: 7.158178050303832e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa1/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.7132444910745335
+interation 2 max diff: 0.0029534596963003423
+interation 3 max diff: 1.2815121408493724e-08
+interation 4 max diff: 1.1368683772161603e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa2/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.1914180706722846
+interation 2 max diff: 0.0018986754719207966
+interation 3 max diff: 7.287553671631031e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa2/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.6358940082236586
+interation 2 max diff: 0.0027794475088285253
+interation 3 max diff: 1.1816268852271605e-08
+interation 4 max diff: 1.3642420526593924e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa3/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.206381430292822
+interation 2 max diff: 0.0019318316694807436
+interation 3 max diff: 7.465814633178525e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa3/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.6529389660028073
+interation 2 max diff: 0.002813113490901742
+interation 3 max diff: 1.1999077287327964e-08
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa4/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.167580941695064
+interation 2 max diff: 0.001851785005783313
+interation 3 max diff: 7.052676664898172e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa4/restart/2022/0001_nrt_20220216_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+cdo(3) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(3) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [3.98s 511MB].
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.16s 512MB].
+rm: cannot remove '/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output//tmp/*': No such file or directory
+compted perturbed restarts for 20220216 and cleaned /tmp/
+computing perturbed restarts for 20220210
+got data
+Integrating 3 scenarios, 1 gas cycle parameter sets, 1 thermal response parameter sets, over ['bc', 'bc|aci', 'bc|bc_on_snow', 'c2f6', 'c3f8', 'c4f10', 'c5f12', 'c6f14', 'c7f16', 'c8f18', 'c_c4f8', 'carbon_dioxide', 'carbon_tetrachloride', 'carbon_tetrachloride|o3', 'cf4', 'cfc11', 'cfc113', 'cfc113|o3', 'cfc114', 'cfc114|o3', 'cfc115', 'cfc115|o3', 'cfc11|o3', 'cfc12', 'cfc12|o3', 'ch2cl2', 'ch2cl2|o3', 'ch3ccl3', 'ch3ccl3|o3', 'chcl3', 'chcl3|o3', 'co', 'co|o3', 'halon1202', 'halon1202|o3', 'halon1211', 'halon1211|o3', 'halon1301', 'halon1301|o3', 'halon2402', 'halon2402|o3', 'hcfc141b', 'hcfc141b|o3', 'hcfc142b', 'hcfc142b|o3', 'hcfc22', 'hcfc22|o3', 'hfc125', 'hfc134a', 'hfc143a', 'hfc152a', 'hfc227ea', 'hfc23', 'hfc236fa', 'hfc245fa', 'hfc32', 'hfc365mfc', 'hfc4310mee', 'methane', 'methane|strat_h2o', 'methane|o3', 'methyl_bromide', 'methyl_bromide|o3', 'methyl_chloride', 'methyl_chloride|o3', 'nf3', 'nh3', 'nitrous_oxide', 'nitrous_oxide|o3', 'nmvoc', 'nmvoc|o3', 'nox', 'nox_avi', 'nox_avi|contrails', 'nox|o3', 'oc', 'oc|aci', 'sf6', 'so2', 'so2f2', 'so2|aci'] forcing agents, between 1750 and 2022...
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+generate-perturbation.py:39: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  lsm_hadisst=~xr.ufuncs.isnan(xr.open_dataset('/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/source/sst/HadISST_sst.nc').isel(time=-1).sst)
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/core/dataarray.py:3066: FutureWarning: xarray.ufuncs is deprecated. Instead, use numpy ufuncs directly.
+  da = self.__array_wrap__(f(self.variable.data, *args, **kwargs))
+  0%|          | 0/272 [00:00<?, ? timestep/s] 64%|██████▍   | 174/272 [00:00<00:00, 1732.12 timestep/s]100%|██████████| 272/272 [00:00<00:00, 1774.46 timestep/s]computed AWI
+computed attributable t3d
+infilled & remapped t3d
+computed attributable sst
+infilled & remapped sst
+relaxed t3d to sst at surface & saved
+computed attributable sea-ice concentration & thickness
+infilled sea-ice concentration & thickness + saved
+
+perturbing opa0 t3d
+perturbing opa1 t3d
+perturbing opa2 t3d
+perturbing opa3 t3d
+perturbing opa4 t3d
+perturbing opa0 si2d
+perturbing opa1 si2d
+perturbing opa2 si2d
+perturbing opa3 si2d
+perturbing opa4 si2d
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.686494046485336
+interation 2 max diff: 0.002903078389977054
+interation 3 max diff: 3.2166212804440875e-08
+interation 4 max diff: 1.1709744285326451e-11
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa0/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa0:
+interation 1 max diff: 2.148426773092069
+interation 2 max diff: 0.0017992312170918012
+interation 3 max diff: 6.791196938138455e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa0/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.688267480283116
+interation 2 max diff: 0.0029017368372024066
+interation 3 max diff: 2.7385453904571477e-08
+interation 4 max diff: 9.208633855450898e-12
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa1/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa1:
+interation 1 max diff: 2.1374190684766745
+interation 2 max diff: 0.0017870235199097806
+interation 3 max diff: 6.7336713982513174e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa1/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.6609982297567285
+interation 2 max diff: 0.002834768850675573
+interation 3 max diff: 3.476930032775272e-08
+interation 4 max diff: 1.2278178473934531e-11
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa2/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa2:
+interation 1 max diff: 2.154512303112597
+interation 2 max diff: 0.0018262871390106739
+interation 3 max diff: 6.9258021540008485e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa2/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.668482928610615
+interation 2 max diff: 0.002850490217724655
+interation 3 max diff: 3.1811623557587154e-08
+interation 4 max diff: 1.1141310096718371e-11
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa3/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa3:
+interation 1 max diff: 2.157104655664625
+interation 2 max diff: 0.0018328350640786084
+interation 3 max diff: 6.963318810448982e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa3/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.6840562352424513
+interation 2 max diff: 0.0028850415878878266
+interation 3 max diff: 3.5693574318429455e-08
+interation 4 max diff: 1.7621459846850485e-11
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/pi-co2/0001/opa4/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+
+opa4:
+interation 1 max diff: 2.146203815030958
+interation 2 max diff: 0.0017592295232589095
+interation 3 max diff: 6.6092979977838695e-09
+saved constrained salinity restart to /network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output/incr-co2/0001/opa4/restart/2022/0001_nrt_20220210_000000_restart.nc
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/cfgrib_.py:28: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  "Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. "
+/home/l/leach/installed-packages/miniconda3/lib/python3.7/site-packages/xarray/backends/plugins.py:68: RuntimeWarning: Engine 'cfgrib' loading failed:
+libffi.so.7: cannot open shared object file: No such file or directory
+  warnings.warn(f"Engine {name!r} loading failed:\n{ex}", RuntimeWarning)
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) remapbil: Process started
+cdo(3) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(3) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.04s 512MB].
+cdo(1) setmissval: Process started
+cdo(2) setctomiss: Process started
+cdo(3) mulc: Process started
+cdo(4) remapbil: Process started
+cdo(4) remapbil: Bilinear weights from curvilinear (1442x1021) to gaussian_reduced (1661440) grid
+cdo(4) remapbil: Processed 1472282 values from 1 variable over 1 timestep.
+cdo(3) mulc: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(2) setctomiss: Processed 1661440 values from 1 variable over 1 timestep.
+cdo(1) setmissval: Processed 1661440 values from 1 variable over 1 timestep.
+cdo    copy: Processed 1661440 values from 1 variable over 1 timestep [4.17s 511MB].
+rm: cannot remove '/network/group/aopp/predict/AWH012_LEACH_NASTORM/IC-PREP/output//tmp/*': No such file or directory
+compted perturbed restarts for 20220210 and cleaned /tmp/
