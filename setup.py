@@ -1,26 +1,26 @@
 #
-# pkmodel setuptools script
+# stormeunice setuptools script
 #
 from setuptools import setup, find_packages
 
 
-def get_version():
-    """
-    Get version number from the pkmodel module.
+# def get_version():
+#     """
+#     Get version number from the pkmodel module.
 
-    The easiest way would be to just ``import pkmodel ``, but note that this may
-    fail if the dependencies have not been installed yet. Instead, we've put
-    the version number in a simple version_info module, that we'll import here
-    by temporarily adding the oxrse directory to the pythonpath using sys.path.
-    """
-    import os
-    import sys
+#     The easiest way would be to just ``import stormeunice ``, but note that this may
+#     fail if the dependencies have not been installed yet. Instead, we've put
+#     the version number in a simple version_info module, that we'll import here
+#     by temporarily adding the oxrse directory to the pythonpath using sys.path.
+#     """
+#     import os
+#     import sys
 
-    sys.path.append(os.path.abspath('pkmodel'))
-    from version_info import VERSION as version
-    sys.path.pop()
+#     sys.path.append(os.path.abspath('pkmodel'))
+#     from version_info import VERSION as version
+#     sys.path.pop()
 
-    return version
+#     return version
 
 
 def get_readme():
@@ -37,7 +37,7 @@ setup(
     name='stormeunice',
 
     # Version
-    version=get_version(),
+    #version=get_version(),
 
     description='An attribution study of storm Eunice.',
 
@@ -63,6 +63,8 @@ setup(
         # Dependencies go here!
         'numpy',
         'matplotlib',
+        'pandas',
+        'xarray',
         'scipy',
     ],
     extras_require={

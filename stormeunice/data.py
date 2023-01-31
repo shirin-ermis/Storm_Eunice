@@ -79,18 +79,19 @@ class Data():
         south_df: tidy pandas data frame with data from South of UK on Friday
         """
 
+        lat, lon = Data.get_latlon()
         directory, experiments, inits, cfpf = Data.load_meta()
         # Defining box to analyse winds, south england and wales
         lat1 = 52.2
         lat2 = 50.3
         lon1 = -6
         lon2 = 1.3
-        llat, llon = Data.create_latlon_grid()
+        llat, llon = Data.create_latlon_grid(lat, lon)
 
-        filename = './Eunice_Friday_lat-'+lat1+'-'+lat2+'_lon-'+lon1+'-'+'lon2'+'.csv'
+        filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+'lon2'+'.csv'
 
         if os.path.isfile(filename): 
-            south_df = xr.load
+            south_df = pd.load_scv(filename)
         else: 
             # empty data frame to be filled later
             south_df = pd.DataFrame({'lat': [], 
@@ -145,5 +146,7 @@ class Data():
                                                         'fg10' : data_filtered.fg10.values[:,member,:,:].flatten()})
                                 south_df = pd.merge(south_df, adding,
                                                     how = 'outer')
+            south_df.to_csv(filename)
+
         return south_df
         
