@@ -88,7 +88,7 @@ class Data():
         lon2 = 1.3
         llat, llon = Data.create_latlon_grid(lat, lon)
 
-        filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+'lon2'+'.csv'
+        filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
 
         if os.path.isfile(filename): 
             south_df = pd.load_scv(filename)
