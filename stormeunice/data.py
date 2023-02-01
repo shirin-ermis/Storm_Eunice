@@ -91,7 +91,7 @@ class Data():
         filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
 
         if os.path.isfile(filename): 
-            south_df = pd.load_scv(filename)
+            south_df = pd.read_csv(filename)
         else: 
             # empty data frame to be filled later
             south_df = pd.DataFrame({'lat': [], 
