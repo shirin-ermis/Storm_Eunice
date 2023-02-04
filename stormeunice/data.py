@@ -7,13 +7,38 @@ import os
 import numpy as np
 import pandas as pd
 
+import scipy as sp
+import netCDF4 as nC4
+import scipy.signal
+import sys
+import glob
+import datetime
+import time
+import multiprocessing
+import copy
+import shutil
+import gzip
+import warnings
+
+sys.path.append('/home/l/leach/Downloads/')
+import ScientificColourMaps6 as SCM6
+
+
+## get FaIR
+from fair import *
+
+## get my stats functions
+from mystatsfunctions import OLSE,LMoments
+from moarpalettes import get_palette
+
+
 class Data():
     """
-    Class to import data files
+    Class to import data files and pre-process them.
     """
 
     def __init__(self):
-        self.image = None
+        self.status = None
 
     def load_meta():
         """
@@ -42,9 +67,19 @@ class Data():
 
         return directory, experiments, inits, cfpf
     
-    def get_latlon():
+    def get_latlon(self):
+        """
+        Function loads latitude and longitude grid for forecasts when called.
 
-        directory, experiments, inits, cfpf = Data.load_meta()
+        Input:
+        ------
+
+        Output:
+        ------
+        lat, lon: arrays, latitude and longitude arrays
+        """
+
+        directory, experiments, inits, cfpf = self.load_meta()
         experiment = 'pi'
         init = inits['pi'][0]
         cont = 'cf'
@@ -54,6 +89,17 @@ class Data():
         return lat, lon
 
     def create_latlon_grid(lat, lon): 
+        """
+        Creates a meshgrid for latitude and longitude for the south of England
+
+        Input:
+        ------
+
+        Output:
+        -------
+        llat: 2d array, grid of latitude values
+        llon: 2d array, grid of longitude values
+        """
         
         # Defining box to analyse winds, south england and wales
         lat1 = 52.2
@@ -67,7 +113,7 @@ class Data():
 
         return llat, llon
 
-    def get_friday_data(): 
+    def get_friday_data(self): 
         """
         Function to load data for Friday, 18th February 2022 for all ensembles and experiments
 
@@ -79,14 +125,14 @@ class Data():
         south_df: tidy pandas data frame with data from South of UK on Friday
         """
 
-        lat, lon = Data.get_latlon()
-        directory, experiments, inits, cfpf = Data.load_meta()
+        lat, lon = self.get_latlon()
+        directory, experiments, inits, cfpf = self.load_meta()
         # Defining box to analyse winds, south england and wales
         lat1 = 52.2
         lat2 = 50.3
         lon1 = -6
         lon2 = 1.3
-        llat, llon = Data.create_latlon_grid(lat, lon)
+        llat, llon = self.create_latlon_grid(lat, lon)
 
         filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
 
@@ -149,4 +195,134 @@ class Data():
             south_df.to_csv(filename)
 
         return south_df
+
+    def  get_friday_data_xr(self):
+        """
+        Function to load data for Friday, 18th February 2022 for all ensembles and experiments
+        Output here is an xarray
+
+        Input:
+        -------
+
+        Output:
+        -------
+        south_xr: xarray with data from South of UK on Friday
+        """
+
+        lat, lon = self.get_latlon()
+        directory, experiments, inits, cfpf = self.load_meta()
+        # Defining box to analyse winds, south england and wales
+        lat1 = 52.2
+        lat2 = 50.3
+        lon1 = -6
+        lon2 = 1.3
+        llat, llon = self.create_latlon_grid(lat, lon)
+
+        filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
+
+        if os.path.isfile(filename): 
+            south_xr = xr.load_dataset(filename)
+        else:
+            # Fill data frame
+            members = 50
+            for experiment in experiments:
+                for init in inits[experiment]:
+                    for cont in cfpf:
+                        
+                        # import full data set in file
+                        data = xr.open_dataset(os.path.join(directory[experiment],'EU025/sfc',cont,init+'.nc'))
+                        
+        return south_xr
+
+    def accum2rate(ds):
+        """
+        Function to convert accumulated variables to conventional ones. 
+        Definition to convert accumulated variables to instantaneous:. 
+        Written by Nick Leach.
+
+        Input:
+        ------
+
+        Output:
+        -------
+        """
+        ## accumulated variables & scaling factors
+        accumulated_vars = {'tp':60 * 60 * 24 * 1e3,'ttr':1,'tsr':1,'str':1,'ssr':1,'e':1}
+        accumulated_var_newunits = {'tp':'mm day$^{-1}$','ttr':'W m$^{-2}$','tsr':'W m$^{-2}$','str':'W m$^{-2}$','ssr':'W m$^{-2}$','e':'m s$^{-1}$'}
+
+        ds = ds.copy()
+        oindex = ds.time
+        inidate = pd.to_datetime(oindex[0].values)
         
+        ds = ds.diff('time') / ( ds.time.diff('time').astype(float) / 1e9 )
+        ds = ds.reindex(time=oindex)
+        return ds[1:]
+
+    def preproc_ds(self, ds):
+        """
+        Main pre-processing function
+        Writtten by Nick Leach.
+
+        Input:
+        ------
+
+        Output:
+        -------
+        """
+    
+        ## accumulated variables & scaling factors
+        accumulated_vars = {'tp':60 * 60 * 24 * 1e3,'ttr':1,'tsr':1,'str':1,'ssr':1,'e':1}
+        accumulated_var_newunits = {'tp':'mm day$^{-1}$','ttr':'W m$^{-2}$','tsr':'W m$^{-2}$','str':'W m$^{-2}$','ssr':'W m$^{-2}$','e':'m s$^{-1}$'}
+
+    
+        ds = ds.copy().squeeze()
+        fname = ds.encoding['source'].split('/')[-1].split('.')[0]
+        expver = fname.split('_')[0]
+        ds = ds.expand_dims({'experiment':[expver]})
+
+        # set up aux data
+        inidate = pd.to_datetime(ds.time[0].values)
+        
+        # expand dimensions to include extra info
+        if not 'hDate' in ds:
+            ds = ds.expand_dims({'inidate':[inidate]})
+            
+        if not 'number' in ds:
+            ds = ds.expand_dims({'number':[0]})
+            
+        # put time dimension at front
+        ds = ds.transpose('time',...)
+        
+        # convert accumulated variables into instantaneous
+        for var,sf in accumulated_vars.items():
+            if var in ds.keys():
+                ds[var][1:] = self.accum2rate(ds[var]) * sf
+                # set first value to equal zero [since it should be zero... but isn't always]
+                ds[var][0] = 0
+                ds[var].attrs['units'] = accumulated_var_newunits[var]
+                
+        return ds
+    
+    def preproc_mclim(self, ds):
+        """
+        A couple more steps for pre-processing m-climate
+        Written by Nick Leach.
+
+        Input:
+        ------
+        ds: xarray
+
+        Output:
+        -------
+        ds: xarray
+        """
+    
+        ds = ds.copy().squeeze()
+        ds = self.preproc_ds(ds)
+        # create index of hours from initialisation
+        ds_hours = ((ds.time-ds.time.isel(time=0))/1e9/3600).astype(int)
+        # change time coord to hours coord + rename
+        ds = ds.assign_coords(time=ds_hours).rename(dict(time='hour'))
+        
+        return ds
+            
