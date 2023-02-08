@@ -19,17 +19,7 @@ import copy
 import shutil
 import gzip
 import warnings
-
-sys.path.append('/home/l/leach/Downloads/')
-import ScientificColourMaps6 as SCM6
-
-
-## get FaIR
-from fair import *
-
-## get my stats functions
-from mystatsfunctions import OLSE,LMoments
-from moarpalettes import get_palette
+import glob
 
 
 class Data():
@@ -67,7 +57,7 @@ class Data():
 
         return directory, experiments, inits, cfpf
     
-    def get_latlon(self):
+    def get_latlon():
         """
         Function loads latitude and longitude grid for forecasts when called.
 
@@ -79,7 +69,7 @@ class Data():
         lat, lon: arrays, latitude and longitude arrays
         """
 
-        directory, experiments, inits, cfpf = self.load_meta()
+        directory, experiments, inits, cfpf = Data.load_meta()
         experiment = 'pi'
         init = inits['pi'][0]
         cont = 'cf'
@@ -113,7 +103,7 @@ class Data():
 
         return llat, llon
 
-    def get_friday_data(self): 
+    def get_friday_data(): 
         """
         Function to load data for Friday, 18th February 2022 for all ensembles and experiments
 
@@ -125,14 +115,14 @@ class Data():
         south_df: tidy pandas data frame with data from South of UK on Friday
         """
 
-        lat, lon = self.get_latlon()
-        directory, experiments, inits, cfpf = self.load_meta()
+        lat, lon = Data.get_latlon()
+        directory, experiments, inits, cfpf = Data.load_meta()
         # Defining box to analyse winds, south england and wales
         lat1 = 52.2
         lat2 = 50.3
         lon1 = -6
         lon2 = 1.3
-        llat, llon = self.create_latlon_grid(lat, lon)
+        llat, llon = Data.create_latlon_grid(lat, lon)
 
         filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
 
@@ -196,7 +186,7 @@ class Data():
 
         return south_df
 
-    def  get_friday_data_xr(self):
+    def  get_friday_data_xr():  # TODO
         """
         Function to load data for Friday, 18th February 2022 for all ensembles and experiments
         Output here is an xarray
@@ -209,14 +199,14 @@ class Data():
         south_xr: xarray with data from South of UK on Friday
         """
 
-        lat, lon = self.get_latlon()
-        directory, experiments, inits, cfpf = self.load_meta()
+        lat, lon = Data.get_latlon()
+        directory, experiments, inits, cfpf = Data.load_meta()
         # Defining box to analyse winds, south england and wales
         lat1 = 52.2
         lat2 = 50.3
         lon1 = -6
         lon2 = 1.3
-        llat, llon = self.create_latlon_grid(lat, lon)
+        llat, llon = Data.create_latlon_grid(lat, lon)
 
         filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
 
@@ -254,11 +244,11 @@ class Data():
         oindex = ds.time
         inidate = pd.to_datetime(oindex[0].values)
         
-        ds = ds.diff('time') / ( ds.time.diff('time').astype(float) / 1e9 )
+        ds = ds.diff('time') / (ds.time.diff('time').astype(float) / 1e9 )
         ds = ds.reindex(time=oindex)
         return ds[1:]
 
-    def preproc_ds(self, ds):
+    def preproc_ds(ds):
         """
         Main pre-processing function
         Writtten by Nick Leach.
@@ -278,32 +268,33 @@ class Data():
         ds = ds.copy().squeeze()
         fname = ds.encoding['source'].split('/')[-1].split('.')[0]
         expver = fname.split('_')[0]
-        ds = ds.expand_dims({'experiment':[expver]})
+        ds = ds.expand_dims({'experiment':[expver]}).copy()
 
         # set up aux data
         inidate = pd.to_datetime(ds.time[0].values)
         
         # expand dimensions to include extra info
         if not 'hDate' in ds:
-            ds = ds.expand_dims({'inidate':[inidate]})
+            ds = ds.expand_dims({'inidate':[inidate]}).copy()
             
         if not 'number' in ds:
-            ds = ds.expand_dims({'number':[0]})
+            ds = ds.expand_dims({'number':[0]}).copy()
             
         # put time dimension at front
         ds = ds.transpose('time',...)
+        ds = ds.copy(deep=True)
         
         # convert accumulated variables into instantaneous
         for var,sf in accumulated_vars.items():
             if var in ds.keys():
-                ds[var][1:] = self.accum2rate(ds[var]) * sf
+                ds[var].loc[dict(time =ds.time[1:])] = Data.accum2rate(ds[var]) * sf
                 # set first value to equal zero [since it should be zero... but isn't always]
-                ds[var][0] = 0
+                ds[var].loc[dict(time=ds.time[0])] = 0
                 ds[var].attrs['units'] = accumulated_var_newunits[var]
                 
         return ds
     
-    def preproc_mclim(self, ds):
+    def preproc_mclim(ds):
         """
         A couple more steps for pre-processing m-climate
         Written by Nick Leach.
@@ -318,11 +309,38 @@ class Data():
         """
     
         ds = ds.copy().squeeze()
-        ds = self.preproc_ds(ds)
+        ds = Data.preproc_ds(ds)
         # create index of hours from initialisation
         ds_hours = ((ds.time-ds.time.isel(time=0))/1e9/3600).astype(int)
         # change time coord to hours coord + rename
         ds = ds.assign_coords(time=ds_hours).rename(dict(time='hour'))
         
         return ds
+
+
+    def get_eps_data():  # TODO
+        """
+        Function to load comlete data of operational forecast since xr has a bug that prevents using 
+        this as a simpler solution
+
+        Input:
+        ------
+        none
+
+        Output:
+        -------
+        eps: xarray, data and metadata of operational forecasts
+        """
+
+        directory = '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/*/*.nc'
+        ind = 0
+        for files in glob.glob(directory):
+            if ind == 0:
+                eps = Data.preproc_ds(xr.open_dataset(files))
+            else:
+                data = xr.open_dataset(files)
+                preproc_data = Data.preproc_ds(data)
+                eps = xr.combine_by_coords(eps,preproc_data)
+        
+        return eps
             
