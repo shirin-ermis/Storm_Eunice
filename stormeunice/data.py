@@ -337,6 +337,7 @@ class Data():
         for files in glob.glob(directory):
             if ind == 0:
                 eps = Data.preproc_ds(xr.open_dataset(files))
+                ind += 1
             else:
                 data = xr.open_dataset(files)
                 preproc_data = Data.preproc_ds(data)
