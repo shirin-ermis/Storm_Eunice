@@ -317,7 +317,7 @@ class Data():
                 exp_eps = []
                 for c, cont in enumerate(['cf', 'pf']):
                     for files in glob.glob(directory[experiment]+cont+'/*.nc'):
-                        
+                        print(files)
                         if len(exp_eps) == c+1:  # add data to existing list entry
                             data = xr.open_dataset(files, chunks = -1)
                             data = Data.preproc_ds(data.get(['fg10', 'msl']))  # preprocessing just two variables for speed
