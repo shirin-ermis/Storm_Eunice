@@ -185,44 +185,7 @@ class Data():
             south_df.to_csv(filename)
 
         return south_df
-
-    def  get_friday_data_xr():  # TODO
-        """
-        Function to load data for Friday, 18th February 2022 for all ensembles and experiments
-        Output here is an xarray
-
-        Input:
-        -------
-
-        Output:
-        -------
-        south_xr: xarray with data from South of UK on Friday
-        """
-
-        lat, lon = Data.get_latlon()
-        directory, experiments, inits, cfpf = Data.load_meta()
-        # Defining box to analyse winds, south england and wales
-        lat1 = 52.2
-        lat2 = 50.3
-        lon1 = -6
-        lon2 = 1.3
-        llat, llon = Data.create_latlon_grid(lat, lon)
-
-        filename = './Eunice_Friday_lat-'+str(lat1)+'-'+str(lat2)+'_lon-'+str(lon1)+'-'+str(lon2)+'.csv'
-
-        if os.path.isfile(filename): 
-            south_xr = xr.load_dataset(filename)
-        else:
-            # Fill data frame
-            members = 50
-            for experiment in experiments:
-                for init in inits[experiment]:
-                    for cont in cfpf:
-                        
-                        # import full data set in file
-                        data = xr.open_dataset(os.path.join(directory[experiment],'EU025/sfc',cont,init+'.nc'))
-                        
-        return south_xr
+   
 
     def accum2rate(ds):
         """
@@ -262,13 +225,18 @@ class Data():
     
         ## accumulated variables & scaling factors
         accumulated_vars = {'tp':60 * 60 * 24 * 1e3,'ttr':1,'tsr':1,'str':1,'ssr':1,'e':1}
-        accumulated_var_newunits = {'tp':'mm day$^{-1}$','ttr':'W m$^{-2}$','tsr':'W m$^{-2}$','str':'W m$^{-2}$','ssr':'W m$^{-2}$','e':'m s$^{-1}$'}
+        accumulated_var_newunits = {'tp':'mm day$^{-1}$',
+                                    'ttr':'W m$^{-2}$',
+                                    'tsr':'W m$^{-2}$',
+                                    'str':'W m$^{-2}$',
+                                    'ssr':'W m$^{-2}$',
+                                    'e':'m s$^{-1}$'}
 
     
         ds = ds.copy().squeeze()
-        fname = ds.encoding['source'].split('/')[-1].split('.')[0]
-        expver = fname.split('_')[0]
-        ds = ds.expand_dims({'experiment':[expver]}).copy()
+        # fname = ds.encoding['source'].split('/')[-1].split('.')[0]
+        # expver = fname.split('_')[0]
+        # ds = ds.expand_dims({'experiment':[expver]}).copy()
 
         # set up aux data
         inidate = pd.to_datetime(ds.time[0].values)
@@ -318,30 +286,97 @@ class Data():
         return ds
 
 
-    def get_eps_data():  # TODO
+    def get_eps_data(experiments):
         """
-        Function to load comlete data of operational forecast since xr has a bug that prevents using 
+        Function to load comlete data of simulations on surface level since xr has a bug that prevents using 
         this as a simpler solution
 
         Input:
         ------
-        none
+        experiments: list of strings, list of experiments to import, e.g. ['pi', 'curr', 'incr']
 
         Output:
         -------
-        eps: xarray, data and metadata of operational forecasts
+        eps: list of xarrays, data and metadata of operational forecasts, each list entry is one experiment
         """
 
-        directory = '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/*/*.nc'
-        ind = 0
-        for files in glob.glob(directory):
-            if ind == 0:
-                eps = Data.preproc_ds(xr.open_dataset(files))
-                ind += 1
-            else:
-                data = xr.open_dataset(files)
-                preproc_data = Data.preproc_ds(data)
-                eps = xr.combine_by_coords(eps,preproc_data)
-        
-        return eps
+        filenames = ["Eunice_"+exp+"_EU25_sfc.nc" for exp in experiments]
+
+        eps = []
+        for e, experiment in enumerate(experiments):
+            filename = filenames[e]
+
+            if os.path.isfile(filename):
+                eps.append(xr.open_dataset(filename))
             
+            else: 
+                directory = {'pi':'/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
+                            'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
+                            'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+
+                exp_eps = []
+                for c, cont in enumerate(['cf', 'pf']):
+                    for files in glob.glob(directory[experiment]+cont+'/*.nc'):
+                        print(files)
+                        if len(exp_eps) == c+1:  # add data to existing list entry
+                            data = xr.open_dataset(files, chunks = -1)
+                            data = Data.preproc_ds(data.get(['fg10', 'msl']))  # preprocessing just two variables for speed
+                            exp_eps[c] = xr.concat([exp_eps[c], data], dim = 'inidate')
+                        else:  # create new list entry when experiment and/or cont changes
+                            exp_eps.append(Data.preproc_ds(xr.open_dataset(files).get(['fg10', 'msl'])))
+
+                exp_eps = xr.concat(exp_eps, dim = 'number')
+                exp_eps.to_netcdf("Eunice_"+experiments[0]+"_EU25_sfc.nc")
+                eps.append(exp_eps)
+
+        return eps
+    
+
+            
+    def get_eps_pl_data(experiments, level = 500): 
+        """
+        Function to load comlete data of simulations on pressure levels since xr has a bug that prevents using 
+        this as a simpler solution
+
+        Input:
+        ------
+        experiments: list of strings, list of experiments to import, e.g. ['pi', 'curr', 'incr']
+        level: int, pressure level in hPa that data is on
+
+        Output:
+        -------
+        eps: list of xarrays, data and metadata of operational forecasts, each list entry is one experiment
+        """
+
+        filenames = ["Eunice_"+exp+"_EU25_500.nc" for exp in experiments]
+
+        eps = []
+
+        eps = []
+        for e, experiment in enumerate(experiments):
+            filename = filenames[e]
+
+            if os.path.isfile(filename):
+                eps.append(xr.open_dataset(filename))
+            
+            else: 
+                directory = {'pi':'/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                            'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                            'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+
+                exp_eps = []
+                for c, cont in enumerate(['cf', 'pf']):
+                    for files in glob.glob(directory[experiment]+cont+'/*.nc'):
+                        print(files)
+                        if len(exp_eps) == c+1:  # add data to existing list entry
+                            data = xr.open_dataset(files, chunks = -1)
+                            data = Data.preproc_ds(data.sel(level = level).get(['z', 'vo']))  # preprocessing just two variables for speed
+                            exp_eps[c] = xr.concat([exp_eps[c], data], dim = 'inidate')
+                        else:  # create new list entry when experiment and/or cont changes
+                            exp_eps.append(Data.preproc_ds(xr.open_dataset(files).get(['z', 'vo'])))
+
+                exp_eps = xr.concat(exp_eps, dim = 'number')
+                exp_eps.to_netcdf(filename)
+                eps.append(exp_eps)
+
+        return eps

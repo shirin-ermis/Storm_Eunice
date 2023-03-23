@@ -133,3 +133,8 @@ dmypy.json
 
 # output files
 *.out
+*.nc
+*.csv
+
+# notebooks
+notebooks/.*
