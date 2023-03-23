@@ -190,7 +190,7 @@ class Data():
     def accum2rate(ds):
         """
         Function to convert accumulated variables to conventional ones. 
-        Definition to convert accumulated variables to instantaneous:. 
+        Definition to convert accumulated variables to instantaneous. 
         Written by Nick Leach.
 
         Input:
