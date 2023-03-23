@@ -16,7 +16,7 @@ fi
 mkdir -p "${fpath}/tmp"
 echo "processing ${line}"
 # create a rules file for grib_filter & filter
-echo "write \"${fpath}/tmp/[dataDate]_[perturbationNumber].grib\";" > rules_file
+echo "write \"${fpath}/tmp/[referenceDate]_[dataDate]_[perturbationNumber].grib\";" > rules_file
 grib_filter rules_file $line
 rm -v rules_file
 # convert the filtered grib files to netcdf

@@ -388,7 +388,7 @@ reftime = copy.deepcopy(starttime)
 ### GENERATE SYSTEM TRACKS
 print("Main Analysis",flush=True)
 
-mt = starttime
+mt = endtime
 
 # Extract date
 Y = str(mt[0])
@@ -422,5 +422,10 @@ for track in systemtracks:
     concat['dDist'] = np.sqrt((concat.Dx*spres)**2+(concat.Dy*spres)**2)
     
     concat.to_hdf('/'.join(fpath.split('/')[:-3])+'/'+fpath.split('/')[-3]+'.h5','systemtracks')
+
+## CLEAN-UP
+print('removing {}'.format(rg_outfile),flush=True)
+os.remove(rg_outfile)
+os.remove(suppath)
 
 print('Script done, saved to '+'/'.join(fpath.split('/')[:-3])+'/'+fpath.split('/')[-3]+'.h5',flush=True)
