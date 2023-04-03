@@ -413,3 +413,55 @@ class Data():
                 eps.append(exp_eps)
 
         return eps
+    
+
+    def get_era_98thperc_winds():
+        """
+        Function to load the 98th percentile of wind speeds in ERA5 for the period 2010-2019. 
+
+        Input:
+        ------
+
+        Output:
+        -------
+        era5_windspeeds_98perc: xarray dataset of 98th percentile of wind gusts for all grid points over Europe
+        """
+
+        filename = 'era5_2010-2019_windspeeds_98thperc.nc'
+
+        if os.path.isfile(filename):
+            era5_windspeeds_98perc = xr.open_dataset(filename)
+        
+        else:
+            era5_2000_2022 = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc', chunks = dict(time=-1)).get(['u10', 'v10'])
+            era5_windspeeds = era5_2000_2022.assign(windspeeds = (era5_2000_2022.u10**2 + era5_2000_2022.v10**2)**(1/2))
+            era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).windspeeds.quantile(0.98, dim = ['time'])
+            era5_windspeeds_98perc.to_netcdf(filename)
+        
+        return era5_windspeeds_98perc
+    
+
+    def get_era_98thperc_gusts():
+        """
+        Function to load the 98th percentile of wind speeds in ERA5 for the period 2010-2019. 
+
+        Input:
+        ------
+
+        Output:
+        -------
+        era5_windspeeds_98perc: xarray dataset of 98th percentile of wind gusts for all grid points over Europe
+        """
+
+        filename = 'era5_2010-2019_windsgusts_98thperc.nc'
+
+        if os.path.isfile(filename):
+            era5_windgusts_98perc = xr.open_dataset(filename)
+        
+        else:
+            era5_windgusts = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc', chunks = dict(time=-1)).get(['fg10'])
+            era5_windgusts_98perc = era5_windgusts.chunk(dict(time=-1)).fg10.quantile(0.98, dim = ['time'])
+            era5_windgusts_98perc.to_netcdf(filename)
+        
+        return era5_windgusts_98perc
+        
