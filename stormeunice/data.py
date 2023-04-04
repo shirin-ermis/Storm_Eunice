@@ -358,7 +358,7 @@ class Data():
                 for files in glob.glob(directory[experiment]+cont+'/*'+inidate+'*.nc'):
                     print(files)
                     data = xr.open_dataset(files)
-                    exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl'])))  # preprocessing just two variables for speed
+                    exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl', 'u10', 'v10'])))  # preprocessing just two variables for speed
 
             eps[experiment] = xr.concat(exp_eps, dim = 'number').squeeze()
 
@@ -378,7 +378,7 @@ class Data():
 
         Output:
         -------
-        eps: list of xarrays, data and metadata of operational forecasts, each list entry is one experiment
+        eps: dictionary of xarrays, data and metadata of operational forecasts, each list entry is one experiment
         """
 
         filenames = ["Eunice_"+exp+"_EU25_500.nc" for exp in experiments]
@@ -464,4 +464,10 @@ class Data():
             era5_windgusts_98perc.to_netcdf(filename)
         
         return era5_windgusts_98perc
+    
+
+    def get_eps_windpseeds(arr):
+
+        arrWindspeeds = arr.assign(windspeeds = (arr.v10**2+arr.u10**2)**(1/2))
+        return arrWindspeeds
         
