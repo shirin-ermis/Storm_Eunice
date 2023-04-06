@@ -135,6 +135,7 @@ dmypy.json
 *.out
 *.nc
 *.csv
+*.grb
 
 # notebooks
 notebooks/.*
