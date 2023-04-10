@@ -358,7 +358,7 @@ class Data():
                 for files in glob.glob(directory[experiment]+cont+'/*'+inidate+'*.nc'):
                     print(files)
                     data = xr.open_dataset(files)
-                    exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl', 'u10', 'v10'])))  # preprocessing just two variables for speed
+                    exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl', 'u10', 'v10', 'u100', 'v100'])))
 
             eps[experiment] = xr.concat(exp_eps, dim = 'number').squeeze()
 
@@ -415,27 +415,34 @@ class Data():
         return eps
     
 
-    def get_era_98thperc_winds():
+    def get_era_98thperc_winds(height = 100):
         """
         Function to load the 98th percentile of wind speeds in ERA5 for the period 2010-2019. 
 
         Input:
         ------
+        height: int, level in m (10 or 100) at which wind speeds and percentiles are calculated
 
         Output:
         -------
         era5_windspeeds_98perc: xarray dataset of 98th percentile of wind gusts for all grid points over Europe
         """
 
-        filename = 'era5_2010-2019_windspeeds_98thperc.nc'
+        filename = 'era5_2010-2019_windspeeds'+str(height)+'_98thperc.nc'
 
         if os.path.isfile(filename):
             era5_windspeeds_98perc = xr.open_dataset(filename)
         
         else:
-            era5_2000_2022 = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc', chunks = dict(time=-1)).get(['u10', 'v10'])
-            era5_windspeeds = era5_2000_2022.assign(windspeeds = (era5_2000_2022.u10**2 + era5_2000_2022.v10**2)**(1/2))
-            era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).windspeeds.quantile(0.98, dim = ['time'])
+            era5_2000_2022 = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc', chunks = dict(time=-1)).get(['u10', 'v10', 'v100', 'u100'])
+            if height == 100:
+                era5_windspeeds = era5_2000_2022.assign(ws100 = (era5_2000_2022.u100**2 + era5_2000_2022.v100**2)**(1/2))
+                era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).ws100.quantile(0.98, dim = ['time'])
+            elif height == 10:
+                era5_windspeeds = era5_2000_2022.assign(ws10 = (era5_2000_2022.u10**2 + era5_2000_2022.v10**2)**(1/2))
+                era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).ws10.quantile(0.98, dim = ['time'])
+            else:
+                Exception(ValueError("height must be 10 or 100."))
             era5_windspeeds_98perc.to_netcdf(filename)
         
         return era5_windspeeds_98perc
@@ -450,7 +457,7 @@ class Data():
 
         Output:
         -------
-        era5_windspeeds_98perc: xarray dataset of 98th percentile of wind gusts for all grid points over Europe
+        era5_windgusts_98perc: xarray dataset of 98th percentile of wind gusts for all grid points over Europe
         """
 
         filename = 'era5_2010-2019_windsgusts_98thperc.nc'
@@ -468,6 +475,6 @@ class Data():
 
     def get_eps_windpseeds(arr):
 
-        arrWindspeeds = arr.assign(windspeeds = (arr.v10**2+arr.u10**2)**(1/2))
+        arrWindspeeds = arr.assign(ws10 = (arr.v10**2+arr.u10**2)**(1/2), ws100 = (arr.v100**2+arr.u100**2)**(1/2))
         return arrWindspeeds
         
