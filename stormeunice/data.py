@@ -366,7 +366,7 @@ class Data():
     
 
             
-    def get_eps_pl_data(experiments, level = 500): 
+    def get_eps_pl_data(experiments, inidate = '2022-02-16', level = 500): 
         """
         Function to load comlete data of simulations on pressure levels since xr has a bug that prevents using 
         this as a simpler solution
@@ -381,36 +381,23 @@ class Data():
         eps: dictionary of xarrays, data and metadata of operational forecasts, each list entry is one experiment
         """
 
-        filenames = ["Eunice_"+exp+"_EU25_500.nc" for exp in experiments]
+        eps = {}
 
-        eps = []
+        for experiment in experiments:
 
-        eps = []
-        for e, experiment in enumerate(experiments):
-            filename = filenames[e]
+            directory = {'pi':'/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
 
-            if os.path.isfile(filename):
-                eps.append(xr.open_dataset(filename))
-            
-            else: 
-                directory = {'pi':'/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
-                            'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
-                            'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+            exp_eps = []
+            for c, cont in enumerate(['cf', 'pf']):
+                for files in glob.glob(directory[experiment]+cont+'/*'+inidate+'*.nc'):
+                    print(files)
+                    data = xr.open_dataset(files)
+                    data = Data.preproc_ds(data.sel(level = level).get(['z', 'vo']))  # preprocessing just two variables for speed
+                    exp_eps.append(Data.preproc_ds(xr.open_dataset(files).get(['z', 'vo'])))
 
-                exp_eps = []
-                for c, cont in enumerate(['cf', 'pf']):
-                    for files in glob.glob(directory[experiment]+cont+'/*.nc'):
-                        print(files)
-                        if len(exp_eps) == c+1:  # add data to existing list entry
-                            data = xr.open_dataset(files)
-                            data = Data.preproc_ds(data.sel(level = level).get(['z', 'vo']))  # preprocessing just two variables for speed
-                            exp_eps[c] = xr.concat([exp_eps[c], data], dim = 'inidate')
-                        else:  # create new list entry when experiment and/or cont changes
-                            exp_eps.append(Data.preproc_ds(xr.open_dataset(files).get(['z', 'vo'])))
-
-                exp_eps = xr.concat(exp_eps, dim = 'number')
-                exp_eps.to_netcdf(filename)
-                eps.append(exp_eps)
+                eps[experiment] = xr.concat(exp_eps, dim = 'number').squeeze()
 
         return eps
     
