@@ -32,15 +32,24 @@ class Data():
         """
 
         # Load data from MED-R Preindustrial and increased, as before
-        directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi',
-                     'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr',
-                     'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/'}
+        directory = {'pi': '/network/group/aopp/predict/\
+                     AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi',
+                     'incr': '/network/group/aopp/predict/\
+                        AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr',
+                     'curr': '/network/group/aopp/predict/\
+                        AWH012_LEACH_NASTORM/DATA/MED-R/ENS/'}
 
         experiments = ['incr', 'pi', 'curr']
         cfpf = ['cf', 'pf']  # control and perturbed are treated equally
-        inits = {'pi': ['b2nq_2022-02-10', 'b2nn_2022-02-14', 'b2ns_2022-02-16'],
-                 'incr': ['b2nr_2022-02-10', 'b2no_2022-02-14', 'b2nt_2022-02-16'],
-                 'curr': ['1_2022-02-10', '1_2022-02-14', '1_2022-02-16']}
+        inits = {'pi': ['b2nq_2022-02-10',
+                        'b2nn_2022-02-14',
+                        'b2ns_2022-02-16'],
+                 'incr': ['b2nr_2022-02-10',
+                          'b2no_2022-02-14',
+                          'b2nt_2022-02-16'],
+                 'curr': ['1_2022-02-10',
+                          '1_2022-02-14',
+                          '1_2022-02-16']}
 
         return directory, experiments, inits, cfpf
 
@@ -61,8 +70,14 @@ class Data():
         init = inits['pi'][0]
         cont = 'cf'
 
-        lat = xr.open_dataset(os.path.join(directory[experiment], 'EU025/sfc', cont, init + '.nc')).latitude.values
-        lon = xr.open_dataset(os.path.join(directory[experiment], 'EU025/sfc', cont, init + '.nc')).longitude.values
+        lat = xr.open_dataset(os.path.join(directory[experiment],
+                                           'EU025/sfc',
+                                           cont,
+                                           init + '.nc')).latitude.values
+        lon = xr.open_dataset(os.path.join(directory[experiment],
+                                           'EU025/sfc',
+                                           cont,
+                                           init + '.nc')).longitude.values
         return lat, lon
 
     def create_latlon_grid(lat, lon):
@@ -85,14 +100,17 @@ class Data():
         lon2 = 1.3
 
         # create meshgrid
-        south_england_dict = {'lat': (lat < lat1) & (lat > lat2), 'lon': (lon < lon2) & (lon > lon1)}
-        llat, llon = np.meshgrid(lon[south_england_dict['lon']], lat[south_england_dict['lat']])
+        south_england_dict = {'lat': (lat < lat1) & (lat > lat2),
+                              'lon': (lon < lon2) & (lon > lon1)}
+        llat, llon = np.meshgrid(lon[south_england_dict['lon']],
+                                 lat[south_england_dict['lat']])
 
         return llat, llon
 
     def get_friday_data():
         """
-        Function to load data for Friday, 18th February 2022 for all ensembles and experiments
+        Function to load data for Friday, 18th February 2022 for
+        all ensembles and experiments
 
         Input:
         -------
@@ -111,7 +129,11 @@ class Data():
         lon2 = 1.3
         llat, llon = Data.create_latlon_grid(lat, lon)
 
-        filename = './Eunice_Friday_lat-' + str(lat1) + '-' + str(lat2) + '_lon-' + str(lon1) + '-' + str(lon2) + '.csv'
+        filename = './Eunice_Friday_lat-'
+        + str(lat1) + '-'
+        + str(lat2)
+        + '_lon-' + str(lon1) + '-'
+        + str(lon2) + '.csv'
 
         if os.path.isfile(filename):
             south_df = pd.read_csv(filename)
@@ -131,13 +153,17 @@ class Data():
             for experiment in experiments:
                 for init in inits[experiment]:
                     for cont in cfpf:
-                        
+
                         # import full data set in file
-                        data = xr.open_dataset(os.path.join(directory[experiment],'EU025/sfc', cont, init + '.nc'))
+                        data = xr.open_dataset(
+                            os.path.join(directory[experiment],
+                                         'EU025/sfc',
+                                         cont, init + '.nc'))
                         south_england = (data.latitude < lat1) & (data.latitude > lat2) & (data.longitude < lon2) & (data.longitude > lon1)
                         friday = (data.time >= pd.Timestamp(2022, 2, 18, 0)) & (data.time <= pd.Timestamp(2022, 2, 18, 18))
-                        data_filtered = data.where(south_england & friday, drop=True)
-                        
+                        data_filtered = data.where(south_england & friday,
+                                                   drop=True)
+
                         # store data in data frame with meta data
                         # distinguish between cfpf because members in pf
                         if cont == 'cf':
@@ -145,28 +171,37 @@ class Data():
                             number_timesteps = len(data_filtered.time.values)
                             n_lat = llat.shape[0]
                             n_lon = llon.shape[1]
-                            adding = pd.DataFrame({'lat': np.tile(llat.flatten(), number_timesteps),
-                                                   'lon': np.tile(llon.flatten(), number_timesteps),
-                                                   'experiment': np.tile(experiment, length),
-                                                   'cfpf': np.tile(cont, length),
-                                                   'member': np.tile(-1, length),
-                                                   'init': np.tile(init, length),
-                                                   'time': np.repeat(data_filtered.time.values.flatten(), n_lat * n_lon),
-                                                   'fg10': data_filtered.fg10.values.flatten()})
+                            adding = pd.DataFrame(
+                                {'lat': np.tile(llat.flatten(),
+                                                number_timesteps),
+                                 'lon': np.tile(llon.flatten(),
+                                                number_timesteps),
+                                 'experiment': np.tile(experiment, length),
+                                 'cfpf': np.tile(cont, length),
+                                 'member': np.tile(-1, length),
+                                 'init': np.tile(init, length),
+                                 'time': np.repeat(data_filtered.time.values.flatten(),
+                                                   n_lat * n_lon),
+                                 'fg10': data_filtered.fg10.values.flatten()})
                             south_df = pd.merge(south_df, adding,
                                                 how='outer')
                         elif cont == 'pf':
                             for member in range(members):
                                 n_lat = llat.shape[0]
                                 n_lon = llon.shape[1]
-                                adding = pd.DataFrame({'lat': np.tile(llat.flatten(), number_timesteps),
-                                                        'lon': np.tile(llon.flatten(), number_timesteps),
-                                                        'experiment': np.tile(experiment, length),
-                                                        'cfpf': np.tile(cont, length),
-                                                        'member': np.tile(member, length),
-                                                        'init': np.tile(init, length),
-                                                        'time': np.repeat(data_filtered.time.values.flatten(), n_lat * n_lon),
-                                                        'fg10': data_filtered.fg10.values[:, member, :, :].flatten()})
+                                adding = pd.DataFrame(
+                                    {'lat': np.tile(llat.flatten(),
+                                                    number_timesteps),
+                                     'lon': np.tile(llon.flatten(),
+                                                    number_timesteps),
+                                     'experiment': np.tile(experiment, length),
+                                     'cfpf': np.tile(cont, length),
+                                     'member': np.tile(member, length),
+                                     'init': np.tile(init, length),
+                                     'time': np.repeat(
+                                        data_filtered.time.values.flatten(),
+                                        n_lat * n_lon),
+                                     'fg10': data_filtered.fg10.values[:, member, :, :].flatten()})
                                 south_df = pd.merge(south_df, adding,
                                                     how='outer')
             south_df.to_csv(filename)
@@ -294,18 +329,25 @@ class Data():
             each list entry is one experiment
         """
 
-        directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
-                     'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
-                     'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+        directory = {'pi': '/gf3/predict2/\
+                     AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
+                     'curr': '/gf3/predict2/\
+                        AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
+                     'incr': '/gf3/predict2/\
+                        AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
 
         eps = {}
         for experiment in experiments:
             exp_eps = []
             for c, cont in enumerate(['cf', 'pf']):
-                for files in glob.glob(directory[experiment] + cont + '/*' + inidate + '*.nc'):
+                for files in glob.glob(directory[experiment]
+                                       + cont + '/*'
+                                       + inidate + '*.nc'):
                     print(files)
                     data = xr.open_dataset(files)
-                    exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl', 'u10', 'v10', 'u100', 'v100'])))
+                    exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl',
+                                                             'u10', 'v10',
+                                                             'u100', 'v100'])))
 
             eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
 
@@ -333,17 +375,25 @@ class Data():
 
         for experiment in experiments:
 
-            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
-                         'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
-                         'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+            directory = {'pi': '/gf3/predict2/\
+                         AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                         'curr': '/gf3/predict2/\
+                            AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                         'incr': '/gf3/predict2/\
+                            AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
 
             exp_eps = []
             for c, cont in enumerate(['cf', 'pf']):
-                for files in glob.glob(directory[experiment] + cont + '/*' + inidate + '*.nc'):
+                for files in glob.glob(directory[experiment]
+                                       + cont + '/*'
+                                       + inidate + '*.nc'):
                     print(files)
                     data = xr.open_dataset(files)
-                    data = Data.preproc_ds(data.sel(level=level).get(['z', 'vo']))  # preprocessing just two variables for speed
-                    exp_eps.append(Data.preproc_ds(xr.open_dataset(files).get(['z', 'vo'])))
+                    data = Data.preproc_ds(data.sel(level=level).get(['z',
+                                                                      'vo']))
+                    # preprocessing just two variables for speed
+                    exp_eps.append(Data.preproc_ds(
+                        xr.open_dataset(files).get(['z', 'vo'])))
 
                 eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
 
@@ -370,11 +420,11 @@ class Data():
         if os.path.isfile(filename):
             era5_windspeeds_98perc = xr.open_dataset(filename)
         else:
-            era5_2000_2022 = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
+            era5_2000_2022 = xr.open_mfdataset('/gf3/predict2/\AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
                                                chunks=dict(time=-1)).get(['u10', 'v10', 'v100', 'u100'])
             if height == 100:
                 era5_windspeeds = era5_2000_2022.assign(ws100=(era5_2000_2022.u100**2 + era5_2000_2022.v100**2)**(1 / 2))
-                era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).ws100.quantile(0.98, dim = ['time'])
+                era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).ws100.quantile(0.98, dim=['time'])
             elif height == 10:
                 era5_windspeeds = era5_2000_2022.assign(ws10=(era5_2000_2022.u10**2 + era5_2000_2022.v10**2)**(1 / 2))
                 era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).ws10.quantile(0.98, dim=['time'])
@@ -403,7 +453,8 @@ class Data():
         if os.path.isfile(filename):
             era5_windgusts_98perc = xr.open_dataset(filename)
         else:
-            era5_windgusts = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc', chunks=dict(time=-1)).get(['fg10'])
+            era5_windgusts = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
+                                               chunks=dict(time=-1)).get(['fg10'])
             era5_windgusts_98perc = era5_windgusts.chunk(dict(time=-1)).fg10.quantile(0.98, dim=['time'])
             era5_windgusts_98perc.to_netcdf(filename)
 
