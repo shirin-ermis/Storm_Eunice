@@ -32,12 +32,9 @@ class Data():
         """
 
         # Load data from MED-R Preindustrial and increased, as before
-        directory = {'pi': '/network/group/aopp/predict/\
-                     AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi',
-                     'incr': '/network/group/aopp/predict/\
-                        AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr',
-                     'curr': '/network/group/aopp/predict/\
-                        AWH012_LEACH_NASTORM/DATA/MED-R/ENS/'}
+        directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi',
+                     'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr',
+                     'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/'}
 
         experiments = ['incr', 'pi', 'curr']
         cfpf = ['cf', 'pf']  # control and perturbed are treated equally
@@ -329,12 +326,9 @@ class Data():
             each list entry is one experiment
         """
 
-        directory = {'pi': '/gf3/predict2/\
-                     AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
-                     'curr': '/gf3/predict2/\
-                        AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
-                     'incr': '/gf3/predict2/\
-                        AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+        directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
+                     'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
+                     'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
 
         eps = {}
         for experiment in experiments:
@@ -375,12 +369,9 @@ class Data():
 
         for experiment in experiments:
 
-            directory = {'pi': '/gf3/predict2/\
-                         AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
-                         'curr': '/gf3/predict2/\
-                            AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
-                         'incr': '/gf3/predict2/\
-                            AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                         'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                         'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
 
             exp_eps = []
             for c, cont in enumerate(['cf', 'pf']):
