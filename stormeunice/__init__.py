@@ -9,3 +9,4 @@ from .version_info import VERSION_INT, VERSION  # noqa
 
 # Import main classes
 from .data import Data   # noqa
+from .lagrangian import Lagrange   # noqa
