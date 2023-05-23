@@ -90,7 +90,7 @@ class Lagrange():
                        + (track_lats[:minsize]
                           - eunice_lats[:minsize])**2).sum()
 
-    def preproc_to_stormframe(ds, ifs_eunice_list=None):
+    def preproc_to_stormframe(ds, ifs_eunice_list=None, sfc=True, level=None):
         '''
         Funtion for pre-processing to Lagrangian fields for tracked storms.
         Written by Nick Leach.
@@ -118,7 +118,10 @@ class Lagrange():
         for num in set(ds.number.values).intersection(ds_tracks.number.unique()):
 
             mem_track = ds_tracks.loc[ds_tracks.number == num]
-            mem_fields = ds.sel(number=num)
+            if level is None:
+                mem_fields = ds.sel(number=num)
+            else:
+                mem_fields = ds.sel(number=num, level=level)
             time_intersection = sorted(list(set(mem_fields.time.values).intersection(mem_track.date.values)))
 
             resample_freq = 3  # resampling frequency in hours
@@ -131,19 +134,28 @@ class Lagrange():
             time_end = time_intersection[-1]
 
             # get the instantaneous fields + wind speeds
-            mem_fields_out = mem_fields.get(['sst',
-                                             'u10',
-                                             'v10',
-                                             'msl',
-                                             'u100',
-                                             'v100',
-                                             'tcwv']).sel(time=time_intersection)
-            mem_fields_out['ws10'] = np.sqrt(mem_fields_out.u10**2 + mem_fields_out.v10**2)
-            mem_fields_out['ws100'] = np.sqrt(mem_fields_out.u100**2 + mem_fields_out.v100**2)
+            if sfc:
+                mem_fields_out = mem_fields.get(['sst',
+                                                 'u10',
+                                                 'v10',
+                                                 'msl',
+                                                 'u100',
+                                                 'v100',
+                                                 'fg10',
+                                                 'tcwv']).sel(time=time_intersection)
+                mem_fields_out['ws10'] = np.sqrt(mem_fields_out.u10**2 + mem_fields_out.v10**2)
+                mem_fields_out['ws100'] = np.sqrt(mem_fields_out.u100**2 + mem_fields_out.v100**2)
 
-            # get the maximum fields, taking into account the different preproc times
-            mxtpr_field_out = mem_fields.mxtpr.sel(time=slice(time_start, time_end)).resample(time='{}h'.format(resample_freq), label='right', closed='right', base=0).max()
-            mem_fields_out['mxtpr'] = mxtpr_field_out
+                # get the maximum fields, taking into account the different preproc times
+                mxtpr_field_out = mem_fields.mxtpr.sel(time=slice(time_start, time_end)).resample(time='{}h'.format(resample_freq), label='right', closed='right', base=0).max()
+                mem_fields_out['mxtpr'] = mxtpr_field_out
+            else:
+                mem_fields_out = mem_fields.get(['ta',
+                                                 'u',
+                                                 'v',
+                                                 'vo']).sel(time=time_intersection)
+                mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
+                mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
 
             # add in the mslp centroid lon/lats for Lagrangian analysis
             mem_track_out = mem_track.loc[mem_track.date.isin(time_intersection)]
