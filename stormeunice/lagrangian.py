@@ -9,7 +9,7 @@ import xarray as xr
 
 class Lagrange():
     """
-    Class to import data files and pre-process them.
+    Class to import data files and pre-process them as Lagrangian composites.
     """
 
     def lagrangian_frame(ds):
@@ -93,11 +93,14 @@ class Lagrange():
     def preproc_to_stormframe(ds, ifs_eunice_list=None, sfc=True, level=None):
         '''
         Funtion for pre-processing to Lagrangian fields for tracked storms.
-        Written by Nick Leach.
+        Written by Nick Leach and Shirin Ermis.
 
         Input:
         ------
         ds: xarray dataset
+        ifs_eunice_list: pandas dataframe of track information
+        sfc: bool, whether surface data or pressure level data is needed
+        level: 
 
         Output:
         -------
@@ -110,7 +113,10 @@ class Lagrange():
             ds = ds.expand_dims({'number': [0]})
 
         fpath = ds.encoding['source']
-        exp = fpath.split('/')[-5]
+        if sfc:
+            exp = fpath.split('/')[-5]
+        else:
+            exp = fpath.split('/')[-6]
         inidate = fpath.split('/')[-1].split('_')[-1].split('.')[0]
         ds_tracks = ifs_eunice_list.query('experiment=="{}" & inidate=="{}"'.format(exp, inidate))
         LG_fields = []
@@ -150,12 +156,9 @@ class Lagrange():
                 mxtpr_field_out = mem_fields.mxtpr.sel(time=slice(time_start, time_end)).resample(time='{}h'.format(resample_freq), label='right', closed='right', base=0).max()
                 mem_fields_out['mxtpr'] = mxtpr_field_out
             else:
-                mem_fields_out = mem_fields.get(['ta',
-                                                 'u',
-                                                 'v',
-                                                 'vo']).sel(time=time_intersection)
-                mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
-                mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
+                mem_fields_out = mem_fields.get(['q',
+                                                 'w',
+                                                 'r']).sel(time=time_intersection)
 
             # add in the mslp centroid lon/lats for Lagrangian analysis
             mem_track_out = mem_track.loc[mem_track.date.isin(time_intersection)]
