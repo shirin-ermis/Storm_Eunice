@@ -90,7 +90,7 @@ class Lagrange():
                        + (track_lats[:minsize]
                           - eunice_lats[:minsize])**2).sum()
 
-    def preproc_to_stormframe(ds, ifs_eunice_list=None, sfc=True, level=None):
+    def preproc_to_stormframe(ds, ifs_eunice_list=None, sfc=True, vars=['q', 'r', 'w']):
         '''
         Funtion for pre-processing to Lagrangian fields for tracked storms.
         Written by Nick Leach and Shirin Ermis.
@@ -113,7 +113,7 @@ class Lagrange():
             ds = ds.expand_dims({'number': [0]})
 
         fpath = ds.encoding['source']
-        if sfc:
+        if sfc or vars == ['vo']:
             exp = fpath.split('/')[-5]
         else:
             exp = fpath.split('/')[-6]
@@ -124,10 +124,7 @@ class Lagrange():
         for num in set(ds.number.values).intersection(ds_tracks.number.unique()):
 
             mem_track = ds_tracks.loc[ds_tracks.number == num]
-            if level is None:
-                mem_fields = ds.sel(number=num)
-            else:
-                mem_fields = ds.sel(number=num, level=level)
+            mem_fields = ds.sel(number=num)
             time_intersection = sorted(list(set(mem_fields.time.values).intersection(mem_track.date.values)))
 
             resample_freq = 3  # resampling frequency in hours
@@ -156,9 +153,8 @@ class Lagrange():
                 mxtpr_field_out = mem_fields.mxtpr.sel(time=slice(time_start, time_end)).resample(time='{}h'.format(resample_freq), label='right', closed='right', base=0).max()
                 mem_fields_out['mxtpr'] = mxtpr_field_out
             else:
-                mem_fields_out = mem_fields.get(['q',
-                                                 'w',
-                                                 'r']).sel(time=time_intersection)
+                # vars=['q', 'w', 'r']
+                mem_fields_out = mem_fields.get(vars).sel(time=time_intersection)
 
             # add in the mslp centroid lon/lats for Lagrangian analysis
             mem_track_out = mem_track.loc[mem_track.date.isin(time_intersection)]
