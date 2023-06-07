@@ -90,7 +90,7 @@ class Lagrange():
                        + (track_lats[:minsize]
                           - eunice_lats[:minsize])**2).sum()
 
-    def preproc_to_stormframe(ds, ifs_eunice_list=None, sfc=True, vars=['q', 'r', 'w']):
+    def preproc_to_stormframe(ds, ifs_eunice_list=None, sfc=True):
         '''
         Funtion for pre-processing to Lagrangian fields for tracked storms.
         Written by Nick Leach and Shirin Ermis.
@@ -113,7 +113,7 @@ class Lagrange():
             ds = ds.expand_dims({'number': [0]})
 
         fpath = ds.encoding['source']
-        if sfc or vars == ['vo']:
+        if sfc:
             exp = fpath.split('/')[-5]
         else:
             exp = fpath.split('/')[-6]
@@ -153,8 +153,17 @@ class Lagrange():
                 mxtpr_field_out = mem_fields.mxtpr.sel(time=slice(time_start, time_end)).resample(time='{}h'.format(resample_freq), label='right', closed='right', base=0).max()
                 mem_fields_out['mxtpr'] = mxtpr_field_out
             else:
-                # vars=['q', 'w', 'r']
-                mem_fields_out = mem_fields.get(vars).sel(time=time_intersection)
+                mem_fields_out = mem_fields.get(['z',
+                                                 'q',
+                                                 'r',
+                                                 'w',
+                                                 't',
+                                                 'd',
+                                                 'u',
+                                                 'v',
+                                                 'r',
+                                                 'vo']).sel(time=time_intersection)
+                mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
 
             # add in the mslp centroid lon/lats for Lagrangian analysis
             mem_track_out = mem_track.loc[mem_track.date.isin(time_intersection)]
