@@ -337,7 +337,8 @@ class Data():
                     data = xr.open_dataset(files)
                     exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl',
                                                              'u10', 'v10',
-                                                             'u100', 'v100'])))
+                                                             'u100', 'v100',
+                                                             'tcw', ])))
 
             eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
 
@@ -372,15 +373,18 @@ class Data():
             exp_eps = []
             for c, cont in enumerate(['cf', 'pf']):
                 for files in glob.glob(directory[experiment]
-                                       + cont + '/*'
+                                       + cont + '/extravars/*'
                                        + inidate + '*.nc'):
                     print(files)
                     data = xr.open_dataset(files)
-                    data = Data.preproc_ds(data.sel(level=level).get(['z',
-                                                                      'vo']))
-                    # preprocessing just two variables for speed
-                    exp_eps.append(Data.preproc_ds(
-                        xr.open_dataset(files).get(['z', 'vo'])))
+                    exp_eps.append(Data.preproc_ds(data.sel(level=850).get(['t',
+                                                                            'r',
+                                                                            'q',
+                                                                            'w',
+                                                                            'vo',
+                                                                            'u',
+                                                                            'v',
+                                                                            'z'])))
 
                 eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
 
