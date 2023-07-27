@@ -293,13 +293,9 @@ class Lagrange():
 
             # compute the time of max deepening (include moving average to
             # smooth) for storm composites
-            if sfc:
-                smoothed_msl = mem_track.rolling(3, center=True).mean().msl
-                max_deep = smoothed_msl.diff().idxmin()
-            else:
-                smoothed_z = mem_track.rolling(3, center=True).mean().z
-                max_deep = smoothed_z.diff().idxmin()
-
+            # if sfc:
+            smoothed_msl = mem_track.rolling(3, center=True).mean().msl
+            max_deep = smoothed_msl.diff().idxmin()
             max_deep_datetime = mem_track.date.loc[max_deep]
             max_deep_relative_time = (mem_fields_out.datetime.squeeze().to_pandas() - max_deep_datetime).dt.total_seconds().values / (3600 * 24)
 
