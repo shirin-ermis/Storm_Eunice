@@ -192,7 +192,7 @@ class Lagrange():
 
         return LG_fields
 
-    def preproc_to_stormframe_strongest_deepening(ds,
+    def preproc_to_stormframe_max_deepening(ds,
                                                   ifs_eunice_list=None,
                                                   sfc=True):
         '''
@@ -293,9 +293,13 @@ class Lagrange():
 
             # compute the time of max deepening (include moving average to
             # smooth) for storm composites
-            smoothed_msl = mem_track.rolling(3, center=True).mean().msl
-            max_deep = smoothed_msl.diff(dim='time').idxmin()
-            # TODO: do for gph on pressure levels
+            if sfc:
+                smoothed_msl = mem_track.rolling(3, center=True).mean().msl
+                max_deep = smoothed_msl.diff().idxmin()
+            else:
+                smoothed_z = mem_track.rolling(3, center=True).mean().z
+                max_deep = smoothed_z.diff().idxmin()
+
             max_deep_datetime = mem_track.date.loc[max_deep]
             max_deep_relative_time = (mem_fields_out.datetime.squeeze().to_pandas() - max_deep_datetime).dt.total_seconds().values / (3600 * 24)
 
