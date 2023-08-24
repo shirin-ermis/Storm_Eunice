@@ -377,7 +377,7 @@ class Data():
                                        + inidate + '*.nc'):
                     print(files)
                     data = xr.open_dataset(files)
-                    exp_eps.append(Data.preproc_ds(data.sel(level=850).get(['t',
+                    exp_eps.append(Data.preproc_ds(data.sel(level=level).get(['t',
                                                                             'r',
                                                                             'q',
                                                                             'w',
@@ -420,7 +420,7 @@ class Data():
                 era5_windspeeds = era5_2000_2022.assign(ws10=(era5_2000_2022.u10**2 + era5_2000_2022.v10**2)**(1 / 2))
                 era5_windspeeds_98perc = era5_windspeeds.chunk(dict(time=-1)).ws10.quantile(0.98, dim=['time'])
             else:
-                Exception(ValueError("height must be 10 or 100."))
+                Exception(ValueError("height must be 10 or 100. This will be in metres."))
             era5_windspeeds_98perc.to_netcdf(filename)
 
         return era5_windspeeds_98perc
@@ -456,3 +456,60 @@ class Data():
         arrWindspeeds = arr.assign(ws10=(arr.v10**2 + arr.u10**2)**(1 / 2),
                                    ws100=(arr.v100**2 + arr.u100**2)**(1 / 2))
         return arrWindspeeds
+
+    def get_global_eps_data(experiments, inidate='2022-02-16', sfc=False, glo=True, level=None):
+        """
+        Function to load complete and global data of simulations on pressure levels since
+        xr has a bug that prevents using
+        this as a simpler solution
+
+        Input:
+        ------
+        experiments: list of strings, list of experiments to import,
+                    e.g. ['pi', 'curr', 'incr']
+
+        Output:
+        -------
+        eps: list of xarrays, data and metadata of operational forecasts,
+            each list entry is one experiment
+        """
+        
+        # Define directories with data
+        if sfc & glo:
+            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/GLO100/sfc/',
+                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/GLO100/sfc/',
+                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/GLO100/sfc/'}
+        elif (not sfc) & glo:
+            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/GLO100/pl/',
+                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/GLO100/pl/',
+                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/GLO100/pl/'}
+        elif sfc & (not glo):
+            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
+                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
+                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+        elif (not sfc) & (not glo):
+            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+
+        # Define variables to import
+        if sfc: 
+            vars = ['fg10', 'msl', 'u10', 'v10', 'u100', 'v100', 'tcw']
+        else:
+            vars = ['t', 'r', 'q', 'w', 'vo', 'u', 'v', 'z']
+
+        eps = {}
+        for experiment in experiments:
+            exp_eps = []
+            for c, cont in enumerate(['cf', 'pf']):
+                for files in glob.glob(directory[experiment]+ cont + '/'+ '*.nc'):
+                    print(files)
+                    data = xr.open_dataset(files)
+                    if sfc: 
+                        exp_eps.append(Data.preproc_ds(data.get(vars)))
+                    else:
+                        exp_eps.append(Data.preproc_ds(data.sel(level=level).get(vars)))
+
+            eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
+
+        return eps
