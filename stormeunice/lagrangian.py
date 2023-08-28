@@ -5,6 +5,7 @@ Functions to preprocess data for lagrangian composites
 import pandas as pd
 import numpy as np
 import xarray as xr
+import os.path
 
 
 class Lagrange():
@@ -311,3 +312,48 @@ class Lagrange():
             experiment=[exp]))
 
         return LG_fields
+    
+    def find_notmissing_members(pi_storms, curr_storms, incr_storms, ini='2022-02-14', ts=0, plev=850):
+        '''
+        When using the Lagrangian tracked storm data, many ensemble members
+        do not contain data. This can cause isolines to look jagged etc. We select
+        only the 
+        Written by Shirin Ermis
+
+        Input:
+        ------
+        ini: str, initialisation date
+        ts: float, time step relative to peak vorticity
+        plev: int, pressure level
+
+        Output:
+        ------
+        notmissing: 
+
+        '''
+        filename = '/home/e/ermis/Storm_Eunice/notebooks/11_members_with_complete_data_in_z_'+ini+'_plev'+plev+'.npz'
+        if os.path.isfile(filename):
+            notmissing = np.load(filename)
+        
+        else:
+            pi_numbers = pi_storms.sel(inidate=ini, timestep=ts, level=plev).number.values
+            pi = pi_storms.sel(inidate=ini, timestep=ts, level=plev)
+            notmissing_pi = [x for x in pi_numbers if np.sum(np.isnan(pi.sel(number=x).z.values))<50]
+
+            curr_numbers = curr_storms.sel(inidate=ini, timestep=ts, level=plev).number.values
+            curr = curr_storms.sel(inidate=ini, timestep=ts, level=plev)
+            notmissing_curr = [x for x in curr_numbers if np.sum(np.isnan(curr.sel(number=x).z.values))<50]
+
+            incr_numbers = incr_storms.sel(inidate=ini, timestep=ts, level=plev).number.values
+            incr = incr_storms.sel(inidate=ini, timestep=ts, level=plev)
+            notmissing_incr = [x for x in incr_numbers if np.sum(np.isnan(incr.sel(number=x).z.values))<50]
+
+            np.savez(filename,
+                     notmissing_pi = notmissing_pi,
+                     notmissing_curr = notmissing_curr,
+                     notmissing_incr = notmissing_incr)
+            notmissing = {'notmissingp_pi' : notmissing_pi,
+                          'notmissingp_curr' : notmissing_curr,
+                          'notmissingp_incr' : notmissing_incr}
+
+        return notmissing
