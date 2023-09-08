@@ -155,14 +155,11 @@ class Lagrange():
                 mem_fields_out['mxtpr'] = mxtpr_field_out
             else:
                 mem_fields_out = mem_fields.get(['z',
-                                                 'q',
-                                                 'r',
+                                                 'q',  # spec humidity
                                                  'w',
                                                  't',
-                                                 'd',
                                                  'u',
                                                  'v',
-                                                 'r',
                                                  'vo']).sel(time=time_intersection)
                 mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
 
@@ -272,13 +269,10 @@ class Lagrange():
             else:
                 mem_fields_out = mem_fields.get(['z',
                                                  'q',
-                                                 'r',
                                                  'w',
                                                  't',
-                                                 'd',
                                                  'u',
                                                  'v',
-                                                 'r',
                                                  'vo']).sel(time=time_intersection)
                 mem_fields_out['ws'] = np.sqrt(mem_fields_out.u**2 + mem_fields_out.v**2)
 
