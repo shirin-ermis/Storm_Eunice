@@ -143,3 +143,6 @@ notebooks/.*
 
 # VS Code
 .vscode
+
+# Zenodo upload because it had my personal access token
+*zenodo*.ipynb
