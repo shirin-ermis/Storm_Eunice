@@ -17,6 +17,10 @@ For researchers in member states of the European Forecasting Centre ECMWF, the f
 - b2no, b2nr, b2nt for the future forecasts
 - the current climate forecasts can be found in the operational archive.
 
+Please see the folder ```mars_requests``` for examples on how to structure API requests to download this data.
+
 ## Code structure
 Most of the analysis is in the folder ```notebooks``` along with the figures. Plot files are named after the number of the notebook that is used to create them. 
 The ```stormeunice``` folder along with the ```setup.py``` create a mini-package that can be installed using pip and creates some data post-processing functions which are used in the data analysis.
+An enviroment file can be found in the ```docs``` folder to create a virtual python environment.
+The folder ```Nick``` contains early research contributions by Nicholas Leach (njleach) on this dataset.
