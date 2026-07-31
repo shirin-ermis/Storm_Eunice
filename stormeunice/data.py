@@ -38,15 +38,7 @@ class Data():
 
         experiments = ['incr', 'pi', 'curr']
         cfpf = ['cf', 'pf']  # control and perturbed are treated equally
-        inits = {'pi': ['b2nq_2022-02-10',
-                        'b2nn_2022-02-14',
-                        'b2ns_2022-02-16'],
-                 'incr': ['b2nr_2022-02-10',
-                          'b2no_2022-02-14',
-                          'b2nt_2022-02-16'],
-                 'curr': ['1_2022-02-10',
-                          '1_2022-02-14',
-                          '1_2022-02-16']}
+ 
 
         return directory, experiments, inits, cfpf
 
@@ -338,7 +330,7 @@ class Data():
                     exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl',
                                                              'u10', 'v10',
                                                              'u100', 'v100',
-                                                             'tcw', ])))
+                                                             'tcw'])))
 
             eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
 
