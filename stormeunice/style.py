@@ -360,7 +360,7 @@ def panel_labels(axes, letters=None, colors=None, **kwargs):
 
 
 # --- saving -----------------------------------------------------------------
-def save(fig, stem, directory="../figures", formats=("png", "pdf"), **kwargs):
+def save(fig, stem, directory="../figures", formats=("png"), **kwargs):
     """Save `fig` as ``<directory>/<stem>.<fmt>`` for each format.
 
     Uses the shared dpi and bounding box so every figure lands in the paper

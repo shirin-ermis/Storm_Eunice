@@ -297,7 +297,7 @@ class Data():
         ds = ds.assign_coords(time=ds_hours).rename(dict(time='hour'))
         return ds
 
-    def get_eps_data(experiments, inidate='2022-02-16'):
+    def get_eps_data(experiments, inidate='2022-02-16', chunks=None):
         """
         Function to load comlete data of simulations on surface level since
         xr has a bug that prevents using
@@ -307,6 +307,9 @@ class Data():
         ------
         experiments: list of strings, list of experiments to import,
                     e.g. ['pi', 'curr', 'incr']
+        chunks: passed to xr.open_dataset. None (default) loads the data
+            into memory on concatenation, which takes ~40 GB for all three
+            lead times; {} keeps it lazy with dask
 
         Output:
         -------
@@ -314,9 +317,13 @@ class Data():
             each list entry is one experiment
         """
 
-        directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
-                     'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
-                     'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+        directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
+                     'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
+                     'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+
+        # runs that share a directory with the attribution ensembles but are
+        # not part of them: b2sb is a later pi run (added Dec 2024)
+        exclude = ['b2sb']
 
         eps = {}
         for experiment in experiments:
@@ -325,14 +332,19 @@ class Data():
                 for files in glob.glob(directory[experiment]
                                        + cont + '/*'
                                        + inidate + '*.nc'):
+                    if os.path.basename(files).split('_')[0] in exclude:
+                        continue
                     print(files)
-                    data = xr.open_dataset(files)
+                    data = xr.open_dataset(files, chunks=chunks)
                     exp_eps.append(Data.preproc_ds(data.get(['fg10', 'msl',
                                                              'u10', 'v10',
                                                              'u100', 'v100',
                                                              'tcw'])))
 
             eps[experiment] = xr.concat(exp_eps, dim='number').squeeze()
+            if chunks is not None:
+                # quantiles over the ensemble need it in a single chunk
+                eps[experiment] = eps[experiment].chunk({'number': -1})
 
         return eps
 
@@ -358,9 +370,9 @@ class Data():
 
         for experiment in experiments:
 
-            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
-                         'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
-                         'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+            directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                         'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                         'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
 
             exp_eps = []
             for c, cont in enumerate(['cf', 'pf']):
@@ -403,7 +415,7 @@ class Data():
         if os.path.isfile(filename):
             era5_windspeeds_98perc = xr.open_dataset(filename)
         else:
-            era5_2000_2022 = xr.open_mfdataset('/gf3/predict2/\AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
+            era5_2000_2022 = xr.open_mfdataset('/network/group/aopp/predict/\AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
                                                chunks=dict(time=-1)).get(['u10', 'v10', 'v100', 'u100'])
             if height == 100:
                 era5_windspeeds = era5_2000_2022.assign(ws100=(era5_2000_2022.u100**2 + era5_2000_2022.v100**2)**(1 / 2))
@@ -436,7 +448,7 @@ class Data():
         if os.path.isfile(filename):
             era5_windgusts_98perc = xr.open_dataset(filename)
         else:
-            era5_windgusts = xr.open_mfdataset('/gf3/predict2/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
+            era5_windgusts = xr.open_mfdataset('/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/ERA5/EU025/sfc/201*.nc',
                                                chunks=dict(time=-1)).get(['fg10'])
             era5_windgusts_98perc = era5_windgusts.chunk(dict(time=-1)).fg10.quantile(0.98, dim=['time'])
             era5_windgusts_98perc.to_netcdf(filename)
@@ -468,21 +480,21 @@ class Data():
         
         # Define directories with data
         if sfc & glo:
-            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/GLO100/sfc/',
-                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/GLO100/sfc/',
-                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/GLO100/sfc/'}
+            directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/GLO100/sfc/',
+                        'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/GLO100/sfc/',
+                        'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/GLO100/sfc/'}
         elif (not sfc) & glo:
-            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/GLO100/pl/',
-                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/GLO100/pl/',
-                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/GLO100/pl/'}
+            directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/GLO100/pl/',
+                        'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/GLO100/pl/',
+                        'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/GLO100/pl/'}
         elif sfc & (not glo):
-            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
-                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
-                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
+            directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/sfc/',
+                        'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/sfc/',
+                        'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/sfc/'}
         elif (not sfc) & (not glo):
-            directory = {'pi': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
-                        'curr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
-                        'incr': '/gf3/predict2/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
+            directory = {'pi': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/pi/EU025/pl/',
+                        'curr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/ENS/EU025/pl/',
+                        'incr': '/network/group/aopp/predict/AWH012_LEACH_NASTORM/DATA/MED-R/EXP/incr/EU025/pl/'}
 
         # Define variables to import
         if sfc: 
