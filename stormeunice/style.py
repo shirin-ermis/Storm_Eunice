@@ -1,21 +1,22 @@
-"""Shared figure style for the Storm Babet paper figures.
+"""Shared figure style for the Storm Eunice paper figures.
 
-Every ``PAPER*.ipynb`` notebook pulls its fonts, panel-label sizing, method
-colours and save settings from here, so that the published figures read as one
-visual system.
+Every ``PAPER*.ipynb`` and ``THESIS*.ipynb`` notebook pulls its fonts,
+panel-label sizing, colours, colourmaps and save settings from here, so that the
+published figures read as one visual system.
 
-The reference figure is PAPER1 (``figures/PAPER1_attribution_methods_figure``):
-a 7.2 in wide canvas with 12 pt bold panel labels on a ``cmcrameri.bamako``
-method ramp. Everything below is expressed relative to that figure.
+Type sizes are quoted at a 7.2 in wide reference canvas with 12 pt bold panel
+labels. Figures drawn on a wider canvas scale their type up with ``scaled()`` so
+that everything prints at the same size once shrunk to column width.
 
 Typical use in a notebook::
 
-    import babet as bb
+    import stormeunice as eun
 
-    bb.style.set_style()
+    style = eun.style
+    style.set_style()
     ...
-    bb.style.panel_labels(axes_with_data)          # a, b, c, ...
-    bb.style.save(fig, 'PAPER3_map_plots')
+    style.panel_labels(axes_with_data)             # a, b, c, ...
+    style.save(fig, 'PAPER3_track_stats', directory='figures')
 """
 import os
 
@@ -55,6 +56,24 @@ FS_XSMALL = 6.0               # tick labels on a dense grid
 # RAMP = sns.color_palette("Greens_d", as_cmap=True)
 # RAMP = sns.color_palette(palette='cividis', as_cmap=True)
 RAMP = cm.bamako               # cmcrameri: dark teal-green (0) -> light sand (1)
+
+# --- field colourmaps -------------------------------------------------------
+# The map and composite panels show two kinds of field: the value of a variable
+# in one experiment, and the difference between two experiments. Giving each
+# kind a single colourmap across every figure means a reader can tell them apart
+# without reading the colourbar. All three are cmcrameri, so they are
+# perceptually uniform and survive being printed in greyscale.
+CMAP_SEQ = cm.devon_r          # light -> dark blue; absolute fields
+CMAP_DIV = cm.vik              # blue -> white -> red; differences between runs
+CMAP_SIGNED = cm.cork          # green -> white -> purple; fields signed about 0
+
+# Contour lines drawn on top of a fill need to clear it rather than match the
+# palette: dark ink over the pale end of CMAP_SEQ, white over the dark end.
+CONTOUR_DARK = INK
+CONTOUR_LIGHT = "white"
+
+# Stippling used to mark statistically significant differences.
+HATCH = ".."
 
 # Span of the conditioning axis (0..1) each method family covers in the PAPER1
 # spectrum. This is figure geometry only -- it does not set the colours.
@@ -196,6 +215,41 @@ def climate_colors(names, default=INK):
     return [climate_color(n, default=default) for n in names]
 
 
+# --- experiment colours -----------------------------------------------------
+# The IFS attribution experiments are climate scenarios under another name:
+# `pi` is the pre-industrial counterfactual, `curr` (called `ENS` in the track
+# tables) the factual present-day forecast, and `incr` the warmer future. Mapping
+# them onto CLIMATE_COLOR keeps the ensemble distributions, the map panels and
+# the Lagrangian statistics on one palette across all the paper figures.
+EXPERIMENT_SCENARIO = {
+    "pi": "1870",
+    "curr": "present",
+    "ENS": "present",
+    "incr": "future2",
+}
+
+# On the figures `incr` is written "fut", and `ENS` is the same thing as `curr`.
+# Use these wherever an experiment key is set as type, so that the legends of
+# different figures agree with each other.
+EXPERIMENT_LABEL = {"pi": "pi", "curr": "curr", "ENS": "curr", "incr": "fut"}
+
+
+def experiment_color(name, default=INK):
+    """Colour for an IFS experiment ('pi', 'curr'/'ENS', 'incr')."""
+    scenario = EXPERIMENT_SCENARIO.get(str(name))
+    return default if scenario is None else CLIMATE_COLOR[scenario]
+
+
+def experiment_colors(names, default=INK):
+    """Colours for a sequence of experiment keys, in the order given."""
+    return [experiment_color(n, default=default) for n in names]
+
+
+def experiment_label(name):
+    """Figure label for an experiment key; the key itself if it is not one."""
+    return EXPERIMENT_LABEL.get(str(name), str(name))
+
+
 # --- accent colours ---------------------------------------------------------
 # For anything that is neither a method nor a scenario: observations drawn over
 # a model ensemble, a threshold or reference line, a highlighted member.
@@ -260,6 +314,10 @@ def set_style():
         "axes.labelcolor": INK,
         "xtick.color": INK,
         "ytick.color": INK,
+        # significance stippling, at one weight and colour everywhere. Ink
+        # rather than white: the diff panels use CMAP_DIV, whose centre is white.
+        "hatch.linewidth": 0.7,
+        "hatch.color": INK,
         "figure.facecolor": "white",
         "savefig.facecolor": "white",
         "savefig.dpi": 600,
