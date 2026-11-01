@@ -228,10 +228,11 @@ EXPERIMENT_SCENARIO = {
     "incr": "future2",
 }
 
-# On the figures `incr` is written "fut", and `ENS` is the same thing as `curr`.
-# Use these wherever an experiment key is set as type, so that the legends of
-# different figures agree with each other.
-EXPERIMENT_LABEL = {"pi": "pi", "curr": "curr", "ENS": "curr", "incr": "fut"}
+# On the figures the experiments are named by the climate they represent, and
+# `ENS` is the same thing as `curr`. Use these wherever an experiment key is set
+# as type, so that the legends of different figures agree with each other.
+EXPERIMENT_LABEL = {"pi": "preindustrial", "curr": "current", "ENS": "current",
+                    "incr": "future"}
 
 
 def experiment_color(name, default=INK):
@@ -360,7 +361,7 @@ def panel_labels(axes, letters=None, colors=None, **kwargs):
 
 
 # --- saving -----------------------------------------------------------------
-def save(fig, stem, directory="../figures", formats=("png"), **kwargs):
+def save(fig, stem, directory="../figures", formats=("png",), **kwargs):
     """Save `fig` as ``<directory>/<stem>.<fmt>`` for each format.
 
     Uses the shared dpi and bounding box so every figure lands in the paper
